@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { writeFile, mkdir, rm } from "node:fs/promises";
+import { writeFile, mkdir } from "node:fs/promises";
 import express from "express";
 import { v4 as u4 } from "uuid";
 import PictGenerator from "pwtg";
@@ -47,20 +47,11 @@ app.post("/generate", async (req, res) => {
   }
 
   // send file for download
-  // on errors remove files from file system
   res.download(testsPath, async (err) => {
     if (err) {
-      await rm(testsPath);
-      await rm(modelPath);
-
       res.status(500).json({ error: { code: 500, message: `Downloading file failed with error: ${err}` } });
     }
   });
-  // all done, remove files
-  // if there would be an ensured deletion of `/tmp` folder
-  // we would not want to do this, it is a perf penalty
-  await rm(testsPath);
-  await rm(modelPath);
 
   res.status(201).end();
 });
