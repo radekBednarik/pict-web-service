@@ -1,0 +1,51 @@
+{
+  "name": "pict-web-service-backend",
+  "version": "1.0.0",
+  "description": "Express.js backend server for generating test cases.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.ts",
+    "build": "rimraf ./dist && tsc",
+    "lint": "tsc --noEmit --pretty && eslint ./src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.3.15",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.8",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "chai": "^5.1.0",
+    "eslint": "^8.56.0",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "tsx": "^4.8.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "printWidth": 109
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/tests/**"
+    ],
+    "execMap": {
+      "ts": "tsx"
+    },
+    "watch": [
+      "src/",
+      ".env"
+    ]
+  }
+}
