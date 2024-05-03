@@ -42,6 +42,7 @@ app.post("/generate", async (req, res) => {
       .status(500)
       .json({ error: { code: 500, message: `PICT generation of test cases failed with error: ${error}` } });
   }
+
   // send file for download
   // on errors remove files from file system
   res.download(testsPath, async (err) => {
