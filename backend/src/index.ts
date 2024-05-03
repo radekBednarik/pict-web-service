@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import PictGenerator from "pwtg";
 
 const app = express();
 
