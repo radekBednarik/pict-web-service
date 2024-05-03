@@ -23,11 +23,14 @@ app.post("/generate", async (req, res) => {
   const data = req.body["data"];
   // must save data so PICT can load them - this is perf penalty, but
   // since PICT is CLI first tool, it cannot be avoided
-  await mkdir("/tmp/pict/models", { recursive: true });
-  await mkdir("/tmp/pict/tests", { recursive: true });
+  const dirModels = "/tmp/pict/models";
+  const dirTests = "/tmp/pict/tests";
 
-  const modelPath = `/tmp/pict/models/${u4()}.txt`;
-  const testsPath = `/tmp/pict/tests/${u4()}.json`;
+  await mkdir(dirModels, { recursive: true });
+  await mkdir(dirTests, { recursive: true });
+
+  const modelPath = `${dirModels}/${u4()}.txt`;
+  const testsPath = `${dirTests}/${u4()}.json`;
 
   await writeFile(modelPath, data, { encoding: "utf-8" });
 
@@ -49,9 +52,13 @@ app.post("/generate", async (req, res) => {
     if (err) {
       await rm(testsPath);
       await rm(modelPath);
+
+      res.status(500).json({ error: { code: 500, message: `Downloading file failed with error: ${err}` } });
     }
   });
   // all done, remove files
+  // if there would be an ensured deletion of `/tmp` folder
+  // we would not want to do this, it is a perf penalty
   await rm(testsPath);
   await rm(modelPath);
 
