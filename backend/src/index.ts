@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { writeFile, mkdir } from "node:fs/promises";
 import express from "express";
+import { rateLimit } from "express-rate-limit";
 import { v4 as u4 } from "uuid";
 import PictGenerator from "pwtg";
 
@@ -10,6 +11,14 @@ const app = express();
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  rateLimit({
+    windowMs: 1000 * 60 * 10,
+    limit: 100,
+    standardHeaders: "draft-7",
+    legacyHeaders: false,
+  }),
+);
 
 app.post("/generate", async (req, res) => {
   // handle content type
