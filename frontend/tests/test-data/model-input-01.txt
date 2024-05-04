@@ -1,0 +1,6 @@
+OS: Windows 11, Windows 10, Linux, macOS
+Browser: Chrome, Edge, Firefox, Safari
+Viewport: desktop, mobile
+
+IF [OS] = "macOS" THEN [Browser] = "Safari";
+IF [OS] <> "macOS" THEN [Browser] <> "Safari";
