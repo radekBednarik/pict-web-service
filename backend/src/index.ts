@@ -4,9 +4,10 @@ import express from "express";
 import { v4 as u4 } from "uuid";
 import PictGenerator from "pwtg";
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const app = express();
 
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -18,6 +19,10 @@ app.post("/generate", async (req, res) => {
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "data")) {
     res.status(400).json({ error: { code: 400, message: "Data not provided in request body." } });
+  }
+
+  if (req.body["data"].length === 0) {
+    res.status(400).json({ error: { code: 400, message: "Empty form was sent." } });
   }
 
   const data = req.body["data"];
@@ -48,16 +53,10 @@ app.post("/generate", async (req, res) => {
 
   // send file for download
   res.download(testsPath, async (err) => {
-    if (err) {
+    if (err && !res.headersSent) {
       res.status(500).json({ error: { code: 500, message: `Downloading file failed with error: ${err}` } });
     }
   });
-
-  res.status(201).end();
-});
-
-app.get("/", (req, res) => {
-  res.json({ status: 200 });
 });
 
 app.listen(port, () => {
