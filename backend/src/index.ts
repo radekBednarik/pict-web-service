@@ -34,6 +34,8 @@ app.post("/generate", async (req, res) => {
     res.status(400).json({ error: { code: 400, message: "Empty form was sent." } });
   }
 
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
   const data = req.body["data"];
   // must save data so PICT can load them - this is perf penalty, but
   // since PICT is CLI first tool, it cannot be avoided

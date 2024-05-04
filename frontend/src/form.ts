@@ -33,6 +33,40 @@ export function injectForm(element: HTMLDivElement) {
 
       </div>
 
+
     </form>
-`;
+
+    <div id="form-error-message" style="display:none" class="alert alert-warning" role="alert"></div>
+  `;
+
+  const form = element.querySelector<HTMLFormElement>("#data-input-form");
+
+  // handle req and resp
+  form!.addEventListener("submit", async (event: SubmitEvent) => {
+    event.preventDefault();
+
+    const data = new FormData(form!);
+    const encodedData = new URLSearchParams(data);
+
+    try {
+      const response = await fetch(form!.action, {
+        method: "POST",
+        body: encodedData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit the form");
+      }
+
+      // window.location.href = "/";
+    } catch (error) {
+      // display error message element
+      const errMsg = document.getElementById("form-error-message");
+      errMsg!.textContent = `Error: ${error}`;
+      errMsg!.style.display = "block";
+    }
+  });
 }
