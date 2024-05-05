@@ -29,4 +29,20 @@ Implements simple server running on [Express.js](https://expressjs.com/).
 ## Errors
 
 - no inner error messages are sent to the frontend
-- TODO: implement logging which will be dumped in the configurable location
+
+## Logging
+
+There are two destination of logging data:
+
+- `.log` file
+- console
+
+### Log configuration
+
+This is done via key/value pairs in `.env` file, specifically:
+
+- `LOG_FILE_PATH=/var/log/pict-server/server.log` - this example value is also the `default` value, if this setting is not provided in the `.env` file. **Make sure, that user, which will run the application on the server (or localhost) has access and write rights to the folders and file!**
+- `LOG_FILE_LEVEL=warn` - this is also the `default` value, if this setting is not provided. Sets the minimum level which will be written to log file.
+- `LOG_CONSOLE_LEVEL=warn` - this is also the `default` value if this setting is not provided. Sets the minimum level which is print out to stdout in the console.
+- `LOG_ENABLED=true` - this is also the `default` value, it this settings is not provided. Enabled/disabled logging.
+- recognized log levels are listed [HERE](https://getpino.io/#/docs/api?id=levels)

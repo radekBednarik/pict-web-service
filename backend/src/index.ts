@@ -13,16 +13,16 @@ const transports = pino.transport({
     {
       target: "pino/file",
       options: { destination: process.env.LOG_FILE_PATH || "/var/log/pict-server/server.log" },
-      level: process.env.LOG_FILE_LEVEL || "info",
+      level: process.env.LOG_FILE_LEVEL || "warn",
     },
     {
       target: "pino-pretty",
       options: { destination: 1 },
-      level: process.env.LOG_CONSOLE_LEVEL || "info",
+      level: process.env.LOG_CONSOLE_LEVEL || "warn",
     },
   ],
 });
-const pLogger = pino(transports);
+const pLogger = pino({ enabled: Boolean(process.env.LOG_ENABLED) || true }, transports);
 const logger = pinoHttp({ logger: pLogger });
 
 const port = process.env.PORT || 4000;
