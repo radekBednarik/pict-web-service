@@ -1,3 +1,5 @@
+import download from "downloadjs";
+
 export function injectForm(element: HTMLDivElement) {
   const baseUrl = import.meta.env.VITE_SERVER_BASE_URL;
   const endpoint = `${baseUrl}/generate`;
@@ -45,8 +47,8 @@ export function injectForm(element: HTMLDivElement) {
   form!.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
 
-    const data = new FormData(form!);
-    const encodedData = new URLSearchParams(data);
+    // @ts-expect-error
+    const encodedData = new URLSearchParams(new FormData(form!));
 
     try {
       const response = await fetch(form!.action, {
@@ -61,11 +63,20 @@ export function injectForm(element: HTMLDivElement) {
         throw new Error("Failed to submit the form");
       }
 
+      // since we are handling fetching data ourselves
+      // we have to manually trigger the download of the file
+      // browser will not do it
+      download(
+        await response.blob(),
+        "downloaded-data.json",
+        "application/json",
+      );
+
       // window.location.href = "/";
     } catch (error) {
       // display error message element
       const errMsg = document.getElementById("form-error-message");
-      errMsg!.textContent = `Error: ${error}`;
+      errMsg!.textContent = `${error}`;
       errMsg!.style.display = "block";
     }
   });
