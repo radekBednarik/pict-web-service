@@ -1,3 +1,5 @@
+import download from "downloadjs";
+
 export function injectForm(element: HTMLDivElement) {
   const baseUrl = import.meta.env.VITE_SERVER_BASE_URL;
   const endpoint = `${baseUrl}/generate`;
@@ -33,6 +35,60 @@ export function injectForm(element: HTMLDivElement) {
 
       </div>
 
+
     </form>
-`;
+
+    <div id="form-error-message" style="display:none" class="alert alert-warning" role="alert"></div>
+  `;
+
+  // handle sending form data and downloading results
+  const form = element.querySelector<HTMLFormElement>("#data-input-form");
+
+  form!.addEventListener("submit", async (event: SubmitEvent) => {
+    event.preventDefault();
+
+    // @ts-expect-error
+    const encodedData = new URLSearchParams(new FormData(form!));
+
+    try {
+      const response = await fetch(form!.action, {
+        method: "POST",
+        body: encodedData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit the form");
+      }
+
+      // since we are handling fetching data ourselves
+      // we have to manually trigger the download of the file
+      // browser will not do it
+      download(
+        await response.blob(),
+        "downloaded-data.json",
+        "application/json",
+      );
+    } catch (error) {
+      // display error message element
+      const errMsg = document.getElementById("form-error-message");
+      errMsg!.textContent = `${error}`;
+      errMsg!.style.display = "block";
+    }
+  });
+
+  // handle hiding the error message if it is visible and new attempt
+  // to generate by clicking the button is made
+
+  const button = element.querySelector<HTMLButtonElement>("#bttn-generate");
+
+  button!.addEventListener("click", () => {
+    const errMsg = document.getElementById("form-error-message");
+
+    if (errMsg!.style.display !== "none") {
+      errMsg!.style.display = "none";
+    }
+  });
 }

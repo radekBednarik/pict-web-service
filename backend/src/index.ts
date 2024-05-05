@@ -17,6 +17,7 @@ app.use(
     limit: 100,
     standardHeaders: "draft-7",
     legacyHeaders: false,
+    message: { error: { code: 429, message: "Request rate limit reached. Try again later." } },
   }),
 );
 
@@ -33,6 +34,8 @@ app.post("/generate", async (req, res) => {
   if (req.body["data"].length === 0) {
     res.status(400).json({ error: { code: 400, message: "Empty form was sent." } });
   }
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
   const data = req.body["data"];
   // must save data so PICT can load them - this is perf penalty, but
@@ -55,15 +58,13 @@ app.post("/generate", async (req, res) => {
   try {
     await generator.generate("json", true, testsPath);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: { code: 500, message: `PICT generation of test cases failed with error: ${error}` } });
+    res.status(500).json({ error: { code: 500, message: "PICT generation of test cases failed." } });
   }
 
   // send file for download
   res.download(testsPath, async (err) => {
     if (err && !res.headersSent) {
-      res.status(500).json({ error: { code: 500, message: `Downloading file failed with error: ${err}` } });
+      res.status(500).json({ error: { code: 500, message: "Downloading file failed." } });
     }
   });
 });
