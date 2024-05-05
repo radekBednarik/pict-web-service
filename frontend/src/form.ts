@@ -41,9 +41,9 @@ export function injectForm(element: HTMLDivElement) {
     <div id="form-error-message" style="display:none" class="alert alert-warning" role="alert"></div>
   `;
 
+  // handle sending form data and downloading results
   const form = element.querySelector<HTMLFormElement>("#data-input-form");
 
-  // handle req and resp
   form!.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
 
@@ -71,13 +71,24 @@ export function injectForm(element: HTMLDivElement) {
         "downloaded-data.json",
         "application/json",
       );
-
-      // window.location.href = "/";
     } catch (error) {
       // display error message element
       const errMsg = document.getElementById("form-error-message");
       errMsg!.textContent = `${error}`;
       errMsg!.style.display = "block";
+    }
+  });
+
+  // handle hiding the error message if it is visible and new attempt
+  // to generate by clicking the button is made
+
+  const button = element.querySelector<HTMLButtonElement>("#bttn-generate");
+
+  button!.addEventListener("click", () => {
+    const errMsg = document.getElementById("form-error-message");
+
+    if (errMsg!.style.display !== "none") {
+      errMsg!.style.display = "none";
     }
   });
 }
