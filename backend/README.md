@@ -25,3 +25,8 @@ Implements simple server running on [Express.js](https://expressjs.com/).
 ## Running the server on production
 
 - `TBD`
+
+## Errors
+
+- no inner error messages are sent to the frontend
+- TODO: implement logging which will be dumped in the configurable location

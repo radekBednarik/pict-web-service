@@ -25,3 +25,9 @@ Simple one-page web application written in [Typescript](https://www.typescriptla
 - provide model specification for generating test cases, as specified in the [PICT](https://github.com/microsoft/pict/blob/main/doc/pict.md)
 - example model is provided in `./tests/test-data` folder
 - after clicking the button, browser should prompt you for download of the file, or download automatically in you default Downloads folder
+
+## Errors
+
+- server errors do not contain any inner information for the security reasons
+- frontend will display generic message below the form
+- more detailed message can be found in the response body of the `./generate` request call in devtools
