@@ -27,6 +27,14 @@ export function injectForm(element: HTMLDivElement) {
           aria-describedby="ModelInput"
         ></textarea>
       </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="output" id="optJson" value="json" checked />
+        <label class="form-check-label" for="optJson">JSON (.json) output</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="output" id="optText" value="txt" />
+        <label class="form-check-label" for="optText">Text (.txt) output</label>
+      </div>
       <div class="mb-3">
         <label for="bttn-generate" class="form-label">
           Click to generate and download data:
@@ -66,11 +74,20 @@ export function injectForm(element: HTMLDivElement) {
       // since we are handling fetching data ourselves
       // we have to manually trigger the download of the file
       // browser will not do it
-      download(
-        await response.blob(),
-        "downloaded-data.json",
-        "application/json",
-      );
+      const outTypes = document.getElementsByName(
+        "output",
+      ) as NodeListOf<HTMLInputElement>;
+
+      for (const item of outTypes) {
+        if (item.checked === true) {
+          download(
+            await response.blob(),
+            `downloaded-data.${item.value}`,
+            item.value === "json" ? "application/json" : "text/plain",
+          );
+          break;
+        }
+      }
     } catch (error) {
       // display error message element
       const errMsg = document.getElementById("form-error-message");
