@@ -62,9 +62,16 @@ app.post("/generate", async (req, res) => {
     res.log.error(msg);
   }
 
+  if (!Object.prototype.hasOwnProperty.call(req.body, "output")) {
+    const msg = { error: { code: 400, message: "Output file type was not provided." } };
+    res.status(400).json(msg);
+    res.log.error(msg);
+  }
+
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   const data = req.body["data"];
+  const output = req.body["output"];
   // must save data so PICT can load them - this is perf penalty, but
   // since PICT is CLI first tool, it cannot be avoided
   const dirModels = "/tmp/pict/models";
@@ -74,7 +81,7 @@ app.post("/generate", async (req, res) => {
   await mkdir(dirTests, { recursive: true });
 
   const modelPath = `${dirModels}/${u4()}.txt`;
-  const testsPath = `${dirTests}/${u4()}.json`;
+  const testsPath = `${dirTests}/${u4()}.${output}`;
 
   await writeFile(modelPath, data, { encoding: "utf-8" });
 
@@ -83,7 +90,8 @@ app.post("/generate", async (req, res) => {
   // generate JSON file and save it, so it can be downloaded via express api
   // handle errors
   try {
-    await generator.generate("json", true, testsPath);
+    const outType = output === "json" ? "json" : "text";
+    await generator.generate(outType, true, testsPath);
   } catch (error) {
     const msg = { error: { code: 500, message: "PICT generation of test cases failed." } };
     res.status(500).json(msg);
