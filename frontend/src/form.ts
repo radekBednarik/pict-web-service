@@ -74,11 +74,20 @@ export function injectForm(element: HTMLDivElement) {
       // since we are handling fetching data ourselves
       // we have to manually trigger the download of the file
       // browser will not do it
-      download(
-        await response.blob(),
-        "downloaded-data.json",
-        "application/json",
-      );
+      const outTypes = document.getElementsByName(
+        "output",
+      ) as NodeListOf<HTMLInputElement>;
+
+      for (const item of outTypes) {
+        if (item.checked === true) {
+          download(
+            await response.blob(),
+            `downloaded-data.${item.value}`,
+            item.value === "json" ? "application/json" : "text/plain",
+          );
+          break;
+        }
+      }
     } catch (error) {
       // display error message element
       const errMsg = document.getElementById("form-error-message");
