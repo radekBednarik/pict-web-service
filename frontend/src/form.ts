@@ -27,6 +27,14 @@ export function injectForm(element: HTMLDivElement) {
           aria-describedby="ModelInput"
         ></textarea>
       </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="output" id="optJson" value="json" checked />
+        <label class="form-check-label" for="optJson">JSON (.json) output</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="output" id="optText" value="txt" />
+        <label class="form-check-label" for="optText">Text (.txt) output</label>
+      </div>
       <div class="mb-3">
         <label for="bttn-generate" class="form-label">
           Click to generate and download data:
