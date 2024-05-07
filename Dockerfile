@@ -25,7 +25,7 @@ RUN node --version && npm --version
 WORKDIR /app/pict
 
 COPY ./backend/binaries/pict  ./binaries/pict
-RUN chmod +x ./libraries/pict
+RUN chmod +x ./binaries/pict
 
 COPY ./backend/package.json ./package.json
 COPY ./backend/src ./src
