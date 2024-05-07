@@ -24,7 +24,7 @@ RUN node --version && npm --version
 # add stuff 
 WORKDIR /app/pict
 
-COPY ./backend/binaries/pict  ./libraries/pict
+COPY ./backend/binaries/pict  ./binaries/pict
 RUN chmod +x ./libraries/pict
 
 COPY ./backend/package.json ./package.json
