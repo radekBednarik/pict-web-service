@@ -28,6 +28,7 @@ const logger = pinoHttp({ logger: pLogger });
 const port = process.env.PORT || 4000;
 const app = express();
 
+app.set("trust proxy", 1);
 app.use(logger);
 app.use(express.static("public"));
 app.use(express.json());
