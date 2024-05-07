@@ -1,5 +1,5 @@
 import "./scss/styles.scss";
-import * as boot from "bootstrap";
+import * as bootstrap from "bootstrap";
 
 import { injectForm } from "./form.js";
 import { injectDescription } from "./description.js";
@@ -19,5 +19,5 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   </div>
   `;
 
-injectDescription(document.querySelector("#description")!);
 injectForm(document.querySelector("#form")!);
+injectDescription(document.querySelector("#description")!);

@@ -20,7 +20,7 @@ export function injectForm(element: HTMLDivElement) {
         </label>
         <textarea id="data" name="data" rows="20" cols="70"
           placeholder="PICT model text goes here..." 
-          autofocus="true"
+          autofocus="false"
           form="data-input-form"
           required="true"
           class="form-control"
