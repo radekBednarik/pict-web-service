@@ -1,0 +1,1 @@
+binaries/pict filter=lfs diff=lfs merge=lfs -text
