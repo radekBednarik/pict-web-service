@@ -118,6 +118,7 @@ export function injectForm(element: HTMLDivElement) {
         }
       }
     } catch (error) {
+      modal.hide();
       // display error message element
       const errMsg = document.getElementById("form-error-message");
       errMsg!.textContent = `${error}`;
