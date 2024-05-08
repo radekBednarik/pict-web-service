@@ -1,42 +1,79 @@
+import { Collapse } from "bootstrap";
+
 export function injectDescription(element: HTMLDivElement) {
   element.innerHTML = `
-    <div class="accordion" id="accordionExample">
+    <div class="accordion" id="desc-group">
       <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Accordion Item #1
+        <h2 class="accordion-header" id="headingOne">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-expanded="true"
+            aria-controls="collapseOne"
+          >
+            How does this tool work?
           </button>
         </h2>
-        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        <div
+          id="collapseOne"
+          class="accordion-collapse collapse show"
+          aria-labelledby="headingOne"
+          data-bs-parent="#desc-group"
+        >
           <div class="accordion-body">
-            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            This tool is using
+            <a
+              href="https://github.com/microsoft/pict"
+              target="_blank"
+              referrerpolicy="no-referrer-when-downgrade"
+            >
+              PICT
+            </a>
+            under the hood. It is a open-source program developed by Microsoft,
+            which enables to easily generate test cases in line with pair-wise
+            testing strategy.<br />
+            You can find detailed documentation, regarding how to write the input
+            model for the PICT
+            <a
+              href="https://github.com/microsoft/pict/blob/main/doc/pict.md"
+              target="_blank"
+              referrerpolicy="no-referrer-when-downgrade"
+            >
+              here </a
+            >.
           </div>
         </div>
       </div>
       <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Accordion Item #2
+        <h2 class="accordion-header" id="headingTwo">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseTwo"
+            aria-expanded="false"
+            aria-controls="collapseTwo"
+          >
+            Example of the PICT model input
           </button>
         </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#desc-group">
           <div class="accordion-body">
-            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            <pre>
+OS: Windows 11, Windows 10, Linux, macOS
+Browser: Chrome, Edge, Firefox, Safari
+Viewport: desktop, mobile
+
+IF [OS] = "macOS" THEN [Browser] = "Safari";
+IF [OS] <> "macOS" THEN [Browser] <> "Safari";
+            </pre>
           </div>
         </div>
       </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Accordion Item #3
-          </button>
-        </h2>
-        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+    </div>`;
+
+  const collapseElementList = document.querySelectorAll(".collapse");
+  [...collapseElementList].map((collapseEl) => new Collapse(collapseEl));
 }
