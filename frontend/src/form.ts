@@ -94,7 +94,7 @@ export function injectForm(element: HTMLDivElement) {
       });
 
       if (!response.ok) {
-        modal.hide();
+        clearTimeout(spinnerTimeout);
         throw new Error("Something went wrong.");
       }
 
