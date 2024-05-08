@@ -1,10 +1,15 @@
 import download from "downloadjs";
 
+import { injectSpinnerModal } from "./spinner-modal";
+
 export function injectForm(element: HTMLDivElement) {
   const baseUrl = import.meta.env.VITE_SERVER_BASE_URL;
   const endpoint = `${baseUrl}/generate`;
 
   element.innerHTML = `
+    <div id="spinner-modal-wrapper">
+    </div>
+
     <form 
       id="data-input-form" 
       name="data-input-form" 
@@ -39,28 +44,45 @@ export function injectForm(element: HTMLDivElement) {
         <label for="bttn-generate" class="form-label">
           Click to generate and download data:
         </label>
-        <button id="bttn-generate" type="submit" class="btn btn-primary">Generate</button>
-
+        <button 
+          id="bttn-generate" 
+          type="submit" 
+          class="btn btn-primary" 
+          data-bs-toggle="modal" 
+          data-bs-target="#spinner-modal"
+        >
+          Generate
+        </button>
       </div>
-
 
     </form>
 
     <div id="form-error-message" style="display:none" class="alert alert-warning" role="alert"></div>
   `;
 
+  // inject hidden modal element containing spinner
+  const modalWrapper = element.querySelector(
+    "#spinner-modal-wrapper",
+  ) as HTMLDivElement;
+  injectSpinnerModal(modalWrapper!);
+
   // handle sending form data and downloading results
   const form = element.querySelector<HTMLFormElement>("#data-input-form");
+  const submitButton =
+    element.querySelector<HTMLButtonElement>("#bttn-generate");
+  const spinnerModal = document.getElementById("spinner-modal");
 
   form!.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
+    submitButton!.disabled = true;
+
+    // display modal with spinner if one second or longer
+    const spinnerTimeout = setTimeout(() => {
+      spinnerModal!.style.display = "block";
+    }, 1000);
 
     // @ts-expect-error
     const encodedData = new URLSearchParams(new FormData(form!));
-    const submitButton = element.querySelector(
-      "#bttn-generate",
-    ) as HTMLButtonElement;
-    submitButton.disabled = true;
 
     try {
       const response = await fetch(form!.action, {
@@ -74,6 +96,8 @@ export function injectForm(element: HTMLDivElement) {
       if (!response.ok) {
         throw new Error("Something went wrong.");
       }
+
+      clearTimeout(spinnerTimeout);
 
       // since we are handling fetching data ourselves
       // we have to manually trigger the download of the file
@@ -98,7 +122,8 @@ export function injectForm(element: HTMLDivElement) {
       errMsg!.textContent = `${error}`;
       errMsg!.style.display = "block";
     } finally {
-      submitButton.disabled = false;
+      spinnerModal!.style.display = "none";
+      submitButton!.disabled = false;
     }
   });
 
