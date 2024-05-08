@@ -68,7 +68,7 @@ export function injectForm(element: HTMLDivElement) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit the form");
+        throw new Error("Something went wrong.");
       }
 
       // since we are handling fetching data ourselves
