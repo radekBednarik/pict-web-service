@@ -57,6 +57,10 @@ export function injectForm(element: HTMLDivElement) {
 
     // @ts-expect-error
     const encodedData = new URLSearchParams(new FormData(form!));
+    const submitButton = element.querySelector(
+      "#bttn-generate",
+    ) as HTMLButtonElement;
+    submitButton.disabled = true;
 
     try {
       const response = await fetch(form!.action, {
@@ -93,6 +97,8 @@ export function injectForm(element: HTMLDivElement) {
       const errMsg = document.getElementById("form-error-message");
       errMsg!.textContent = `${error}`;
       errMsg!.style.display = "block";
+    } finally {
+      submitButton.disabled = false;
     }
   });
 
