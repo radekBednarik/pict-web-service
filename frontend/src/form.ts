@@ -1,4 +1,5 @@
 import download from "downloadjs";
+import { Modal } from "bootstrap";
 
 import { injectSpinnerModal } from "./spinner-modal";
 
@@ -48,8 +49,6 @@ export function injectForm(element: HTMLDivElement) {
           id="bttn-generate" 
           type="submit" 
           class="btn btn-primary" 
-          data-bs-toggle="modal" 
-          data-bs-target="#spinner-modal"
         >
           Generate
         </button>
@@ -70,7 +69,8 @@ export function injectForm(element: HTMLDivElement) {
   const form = element.querySelector<HTMLFormElement>("#data-input-form");
   const submitButton =
     element.querySelector<HTMLButtonElement>("#bttn-generate");
-  const spinnerModal = document.getElementById("spinner-modal");
+
+  let modal: Modal;
 
   form!.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
@@ -78,7 +78,8 @@ export function injectForm(element: HTMLDivElement) {
 
     // display modal with spinner if one second or longer
     const spinnerTimeout = setTimeout(() => {
-      spinnerModal!.style.display = "block";
+      modal = new Modal("#spinner-modal");
+      modal.show();
     }, 1000);
 
     // @ts-expect-error
@@ -122,7 +123,7 @@ export function injectForm(element: HTMLDivElement) {
       errMsg!.textContent = `${error}`;
       errMsg!.style.display = "block";
     } finally {
-      spinnerModal!.style.display = "none";
+      modal.hide();
       submitButton!.disabled = false;
     }
   });
