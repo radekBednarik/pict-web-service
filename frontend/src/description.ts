@@ -74,6 +74,10 @@ IF [OS] <> "macOS" THEN [Browser] <> "Safari";
       </div>
     </div>`;
 
-  const collapseElementList = document.querySelectorAll(".collapse");
-  [...collapseElementList].map((collapseEl) => new Collapse(collapseEl));
+  document.addEventListener("DOMContentLoaded", () => {
+    const collapseElementList = document.querySelectorAll(".collapse");
+    [...collapseElementList].map(
+      (collapseEl) => new Collapse(collapseEl, { toggle: false }),
+    );
+  });
 }
