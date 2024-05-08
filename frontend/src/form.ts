@@ -94,6 +94,7 @@ export function injectForm(element: HTMLDivElement) {
       });
 
       if (!response.ok) {
+        modal.hide();
         throw new Error("Something went wrong.");
       }
 
