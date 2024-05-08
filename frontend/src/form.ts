@@ -70,7 +70,7 @@ export function injectForm(element: HTMLDivElement) {
   const submitButton =
     element.querySelector<HTMLButtonElement>("#bttn-generate");
 
-  let modal: Modal;
+  let modal = new Modal("#spinner-modal");
 
   form!.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
@@ -78,7 +78,6 @@ export function injectForm(element: HTMLDivElement) {
 
     // display modal with spinner if one second or longer
     const spinnerTimeout = setTimeout(() => {
-      modal = new Modal("#spinner-modal");
       modal.show();
     }, 1000);
 
@@ -118,7 +117,6 @@ export function injectForm(element: HTMLDivElement) {
         }
       }
     } catch (error) {
-      modal.hide();
       // display error message element
       const errMsg = document.getElementById("form-error-message");
       errMsg!.textContent = `${error}`;
