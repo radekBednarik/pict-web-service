@@ -61,11 +61,15 @@ export function injectDescription(element: HTMLDivElement) {
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#desc-group">
           <div class="accordion-body">
-            <hr/>
-            <button id="copy" type="button" class="btn btn-sm btn-outline-primary">
-              Copy
-            </button>
-            <hr />
+            <div class="d-flex justify-content-end">
+              <button 
+                id="copy" 
+                type="button" 
+                class="btn btn-sm btn-outline-primary"
+              >
+                Copy
+              </button>
+            </div>
             <pre id="pict-input-example">
 OS: Windows 11, Windows 10, Linux, macOS
 Browser: Chrome, Edge, Firefox, Safari
