@@ -61,7 +61,12 @@ export function injectDescription(element: HTMLDivElement) {
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#desc-group">
           <div class="accordion-body">
-            <pre>
+            <hr/>
+            <button id="copy" type="button" class="btn btn-sm btn-outline-primary">
+              Copy
+            </button>
+            <hr />
+            <pre id="pict-input-example">
 OS: Windows 11, Windows 10, Linux, macOS
 Browser: Chrome, Edge, Firefox, Safari
 Viewport: desktop, mobile
@@ -74,10 +79,22 @@ IF [OS] <> "macOS" THEN [Browser] <> "Safari";
       </div>
     </div>`;
 
+  // enable collapsing of accordion items
   document.addEventListener("DOMContentLoaded", () => {
     const collapseElementList = document.querySelectorAll(".collapse");
     [...collapseElementList].map(
       (collapseEl) => new Collapse(collapseEl, { toggle: false }),
     );
+  });
+
+  // enable copying
+  document.getElementById("copy")!.addEventListener("click", async () => {
+    const exampleInputEl = document.getElementById("pict-input-example")!;
+
+    try {
+      await navigator.clipboard.writeText(exampleInputEl.textContent!);
+    } catch (error) {
+      console.error(`Unable to copy text. ${error}`);
+    }
   });
 }
