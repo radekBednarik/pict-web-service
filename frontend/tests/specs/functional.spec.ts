@@ -3,6 +3,7 @@ import MainPage from "../page-objects/mainPage";
 
 import { mkdirSync, readFileSync } from "fs";
 import path from "path";
+import internal from "stream";
 
 const pictInput = readFileSync("tests/test-data/model-input-01.txt", {
   encoding: "utf-8",
@@ -52,6 +53,8 @@ test.describe("functional", () => {
   });
 
   test.describe("unhappy scenarios", () => {
+    test.use({ serviceWorkers: "block" });
+
     test.beforeEach(async ({ page }) => {
       mainPage = new MainPage(page);
 
@@ -61,6 +64,32 @@ test.describe("functional", () => {
     test("server returns after several seconds - spinner modal pops up", async () => {
       await mainPage.locTextArea.clear();
       await mainPage.locTextArea.fill(pictInput);
+
+      // route POST endpoint to induce modal popup
+      await mainPage.page.route("**/generate", async (route) => {
+        await route.fetch();
+        await mainPage.locModalSpinner.waitFor({ state: "visible" });
+        await route.fulfill();
+      });
+
+      await mainPage.locBttnSubmit.click();
+
+      await expect(async () => {
+        await expect(mainPage.locModalSpinner).toBeVisible();
+      }).toPass({ intervals: [500], timeout: 10000 });
+    });
+
+    test("server response fails with 500 - error div is displayed", async () => {
+      await mainPage.locTextArea.clear();
+      await mainPage.locTextArea.fill(pictInput);
+
+      await mainPage.page.route("**/generate", async (route) => {
+        await route.abort("timedout");
+      });
+
+      await mainPage.locBttnSubmit.click();
+
+      await expect(mainPage.locErrorDiv).toBeVisible();
     });
   });
 });

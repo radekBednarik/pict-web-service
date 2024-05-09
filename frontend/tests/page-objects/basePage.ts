@@ -8,6 +8,6 @@ export default class BasePage {
   }
 
   public async visit(url: string) {
-    return await this.page.goto(url, { waitUntil: "domcontentloaded" });
+    return await this.page.goto(url, { waitUntil: "load" });
   }
 }
