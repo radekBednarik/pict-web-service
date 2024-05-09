@@ -50,6 +50,19 @@ test.describe("functional", () => {
       expect(path.extname(fullpath)).toBe(".txt");
     });
   });
+
+  test.describe("unhappy scenarios", () => {
+    test.beforeEach(async ({ page }) => {
+      mainPage = new MainPage(page);
+
+      await mainPage.visit();
+    });
+
+    test("server returns after several seconds - spinner modal pops up", async () => {
+      await mainPage.locTextArea.clear();
+      await mainPage.locTextArea.fill(pictInput);
+    });
+  });
 });
 
 async function saveDownloadedFile(
