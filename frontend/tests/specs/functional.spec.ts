@@ -7,7 +7,6 @@ import path from "path";
 const pictInput = readFileSync("tests/test-data/model-input-01.txt", {
   encoding: "utf-8",
 });
-
 const dirpath = "tests/test-data/temp/";
 
 test.describe("functional", () => {

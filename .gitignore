@@ -5,5 +5,5 @@ server.log
 playwright-report
 html-report
 test-results
-tests/test-data/temp
+**/tests/test-data/temp
 
