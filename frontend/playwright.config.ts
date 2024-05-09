@@ -7,7 +7,7 @@ export default defineConfig({
     ["list"],
     [
       "html",
-      { open: "never", outputDir: "html-report", outputFile: "report.html" },
+      { open: "never", outputFolder: "html-report", outputFile: "report.html" },
     ],
   ],
   retries: 1,
@@ -25,7 +25,9 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
     viewport: { width: 1920, height: 1080 },
 
-    baseURL: "http://localhost",
+    baseURL: "http://localhost:5173",
+
+    testIdAttribute: "id",
   },
 
   projects: [
@@ -60,14 +62,20 @@ export default defineConfig({
     // frontend
     {
       command: "npm run dev",
-      url: "http://localhost:5173",
+      // url: "http://localhost",
+      port: 5173,
       reuseExistingServer: !process.env.CI,
+      timeout: 10000,
+      stdout: "pipe",
     },
     // backend
     {
       command: "cd ../backend && npm run dev",
-      url: "http://localhost:4000",
+      // url: "http://localhost",
+      port: 4000,
       reuseExistingServer: !process.env.CI,
+      timeout: 10000,
+      stdout: "pipe",
     },
   ],
 });

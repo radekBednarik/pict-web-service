@@ -2,3 +2,7 @@ node_modules
 .env
 dist
 server.log
+playwright-report
+html-report
+test-results
+
