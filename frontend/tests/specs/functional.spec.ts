@@ -3,7 +3,6 @@ import MainPage from "../page-objects/mainPage";
 
 import { mkdirSync, readFileSync } from "fs";
 import path from "path";
-import internal from "stream";
 
 const pictInput = readFileSync("tests/test-data/model-input-01.txt", {
   encoding: "utf-8",
