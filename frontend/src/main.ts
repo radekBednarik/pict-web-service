@@ -1,5 +1,6 @@
 import "./scss/styles.scss";
 
+import { injectThemeSwitch } from "./theme-switch.js";
 import { injectForm } from "./form.js";
 import { injectDescription } from "./description.js";
 import { injectFooter } from "./footer.js";
@@ -11,6 +12,8 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
         <h1>
           Pair-wise Test Generator
         </h1>
+      </div>
+      <div class="col-3 mb-4 mt-2" id="theme-switch">
       </div>
     </div>
     <div class="row mb-4">
@@ -28,6 +31,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   </div>
   `;
 
+injectThemeSwitch(document.querySelector("#theme-switch")!);
 injectForm(document.querySelector("#form")!);
 injectDescription(document.querySelector("#description")!);
 injectFooter(document.querySelector("#footer")!);
