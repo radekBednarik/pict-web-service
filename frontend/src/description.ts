@@ -96,7 +96,7 @@ IF [OS] <> "macOS" THEN [Browser] <> "Safari";
     const exampleInputEl = document.getElementById("pict-input-example")!;
 
     try {
-      await navigator.clipboard.writeText(exampleInputEl.textContent!);
+      await navigator.clipboard.writeText(exampleInputEl.textContent!.trim());
     } catch (error) {
       console.error(`Unable to copy text. ${error}`);
     }
