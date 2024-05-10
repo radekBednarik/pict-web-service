@@ -65,7 +65,7 @@ export function injectDescription(element: HTMLDivElement) {
               <button 
                 id="copy" 
                 type="button" 
-                class="btn btn-sm btn-outline-primary"
+                class="btn btn-sm btn-outline-primary mb-2"
               >
                 Copy
               </button>
