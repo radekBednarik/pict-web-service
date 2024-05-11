@@ -20,7 +20,7 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN node --version && npm --version
 
 # add stuff 
-WORKDIR /app/pict
+WORKDIR /app/pwtg
 
 COPY ./backend/binaries/pict  ./binaries/pict
 RUN chmod +x ./binaries/pict
