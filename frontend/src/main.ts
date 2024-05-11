@@ -25,7 +25,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
       </div>
     </div> 
     <div class="row">
-      <div class="col bg-primary-subtle rounded" id="footer">
+      <div class="col" id="footer">
       </div>
     </div>
   </div>
