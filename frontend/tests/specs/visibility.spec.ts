@@ -12,6 +12,7 @@ test.describe("visibility", () => {
 
   test("on-load elements are visible/not visible", async () => {
     await expect.soft(mainPage.locMainHeading).toBeVisible();
+    await expect.soft(mainPage.locBttnThemeSwitch).toBeVisible();
     await expect.soft(mainPage.locDescriptionSection).toBeVisible();
     await expect.soft(mainPage.locTextArea).toBeVisible();
     await expect.soft(mainPage.locOptJson).toBeVisible();
