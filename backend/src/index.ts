@@ -18,12 +18,15 @@ const transports = pino.transport({
     {
       target: "pino-pretty",
       options: { destination: 1 },
-      level: process.env.LOG_CONSOLE_LEVEL || "warn",
     },
   ],
 });
 const pLogger = pino({ enabled: Boolean(process.env.LOG_ENABLED) || true }, transports);
-const logger = pinoHttp({ logger: pLogger });
+const logger = pinoHttp({
+  logger: pLogger,
+  autoLogging: true,
+  level: process.env.LOG_CONSOLE_LEVEL || "warn",
+});
 
 const port = process.env.PORT || 4000;
 const app = express();
