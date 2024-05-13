@@ -63,12 +63,29 @@ test.describe("functional", () => {
       expect(clipContent).not.toHaveLength(0);
     });
 
-    test("light theme is set on open", async () => {
-      await expect(mainPage.locBttnThemeSwitch).not.toBeChecked();
-      await expect(mainPage.locHtml).not.toHaveAttribute("data-bs-theme");
-      await expect(async () => {
-        expect(await mainPage.getLocalStorageValue("theme")).toBe("light");
-      }).toPass({ timeout: 5000, intervals: [500] });
+    test.describe("light/dark theme", () => {
+      test("light theme is set on open", async () => {
+        await expect(mainPage.locBttnThemeSwitch).not.toBeChecked();
+        await expect(mainPage.locHtml).not.toHaveAttribute("data-bs-theme");
+        await expect(async () => {
+          expect(await mainPage.getLocalStorageValue("theme")).toBe("light");
+        }).toPass({ timeout: 5000, intervals: [500] });
+      });
+
+      test("switch to dark works", async () => {
+        await expect(mainPage.locBttnThemeSwitch).not.toBeChecked();
+
+        await mainPage.locBttnThemeSwitch.click();
+
+        await expect(async () => {
+          await expect(mainPage.locHtml).toHaveAttribute(
+            "data-bs-theme",
+            "dark",
+          );
+
+          expect(await mainPage.getLocalStorageValue("theme")).toBe("dark");
+        }).toPass({ timeout: 5000, intervals: [500] });
+      });
     });
   });
 
