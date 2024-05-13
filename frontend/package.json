@@ -21,6 +21,7 @@
     "@popperjs/core": "^2.11.8",
     "@types/downloadjs": "^1.4.6",
     "bootstrap": "^5.3.3",
-    "downloadjs": "^1.4.7"
+    "downloadjs": "^1.4.7",
+    "pwtg": "^0.1.0"
   }
 }
