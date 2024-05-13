@@ -13,7 +13,7 @@ test.describe("functional", () => {
   let mainPage: MainPage;
 
   test.describe("happy scenarios", () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page, context }) => {
       mainPage = new MainPage(page);
 
       await mainPage.visit();
@@ -48,6 +48,27 @@ test.describe("functional", () => {
       const fullpath = await saveDownloadedFile(dirpath, download);
 
       expect(path.extname(fullpath)).toBe(".txt");
+    });
+
+    // skipped due to: https://github.com/microsoft/playwright/issues/8114
+    test.skip("copy button works", async () => {
+      await mainPage.locBttnDescExample.click();
+      await mainPage.locExampleModel.waitFor({ state: "visible" });
+      await mainPage.locBttnCopy.click();
+
+      const clipContent = await mainPage.page.evaluate(async () => {
+        return await navigator.clipboard.readText();
+      });
+
+      expect(clipContent).not.toHaveLength(0);
+    });
+
+    test("light theme is set on open", async () => {
+      await expect(mainPage.locBttnThemeSwitch).not.toBeChecked();
+      await expect(mainPage.locHtml).not.toHaveAttribute("data-bs-theme");
+      await expect(async () => {
+        expect(await mainPage.getLocalStorageValue("theme")).toBe("light");
+      }).toPass({ timeout: 5000, intervals: [500] });
     });
   });
 

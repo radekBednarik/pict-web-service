@@ -2,8 +2,13 @@ import type { Page, Locator } from "@playwright/test";
 import BasePage from "./basePage";
 
 export default class MainPage extends BasePage {
+  public readonly locHtml: Locator;
+  public readonly locBttnThemeSwitch: Locator;
   public readonly locMainHeading: Locator;
   public readonly locDescriptionSection: Locator;
+  public readonly locBttnCopy: Locator;
+  public readonly locBttnDescExample: Locator;
+  public readonly locExampleModel: Locator;
   public readonly locTextArea: Locator;
   public readonly locOptJson: Locator;
   public readonly locOptText: Locator;
@@ -18,8 +23,13 @@ export default class MainPage extends BasePage {
 
     this.url = "/";
 
+    this.locHtml = this.page.locator("html");
+    this.locBttnThemeSwitch = this.page.getByTestId("switch-theme");
     this.locMainHeading = this.page.getByTestId("main-heading");
     this.locDescriptionSection = this.page.getByTestId("description");
+    this.locBttnDescExample = this.page.getByTestId("accordion-example-button");
+    this.locExampleModel = this.page.getByTestId("pict-input-example");
+    this.locBttnCopy = this.page.getByTestId("copy");
     this.locTextArea = this.page.getByTestId("data");
     this.locOptJson = this.page.getByTestId("optJson");
     this.locOptText = this.page.getByTestId("optText");

@@ -49,6 +49,7 @@ export function injectDescription(element: HTMLDivElement) {
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingTwo">
           <button
+            id="accordion-example-button"
             class="accordion-button collapsed"
             type="button"
             data-bs-toggle="collapse"

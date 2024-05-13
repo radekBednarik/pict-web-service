@@ -31,6 +31,7 @@ function setThemeOnLoad(htmlEl: HTMLElement, themeSwitch: HTMLInputElement) {
   } else {
     htmlEl.removeAttribute("data-bs-theme");
     themeSwitch.checked = false;
+    window.localStorage.setItem("theme", "light");
   }
 }
 
