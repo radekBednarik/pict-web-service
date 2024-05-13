@@ -38,7 +38,7 @@
     "pino": "^9.0.0",
     "pino-http": "^9.0.0",
     "pino-pretty": "^11.0.0",
-    "pwtg": "^0.1.0",
+    "pwtg": "^0.2.0",
     "uuid": "^9.0.1"
   },
   "prettier": {
