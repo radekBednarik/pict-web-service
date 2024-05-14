@@ -78,7 +78,6 @@ app.post("/generate", async (req, res) => {
   const output = req.body["output"];
   const combOrder = Number(req.body["combOrder"]);
   const seedFile = req.body["seedFile"];
-  console.log("SEED FILE: ", seedFile);
   // must save data so PICT can load them - this is perf penalty, but
   // since PICT is CLI first tool, it cannot be avoided
   const dirModels = "/tmp/pict/models";
