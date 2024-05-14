@@ -72,7 +72,11 @@ app.post("/generate", async (req, res) => {
     res.status(400).json(msg);
   }
 
+  res.setHeader("Access-Control-Request-Method", "POST");
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Security-Policy", "default-src 'self'");
+  res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  res.setHeader("Cache-Control", "no-cache");
 
   const data = req.body["data"];
   const output = req.body["output"];
