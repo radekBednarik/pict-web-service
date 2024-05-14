@@ -76,16 +76,29 @@ app.post("/generate", async (req, res) => {
 
   const data = req.body["data"];
   const output = req.body["output"];
+  const combOrder = Number(req.body["combOrder"]);
+  const seedFile = req.body["seedFile"];
+  console.log("SEED FILE: ", seedFile);
   // must save data so PICT can load them - this is perf penalty, but
   // since PICT is CLI first tool, it cannot be avoided
   const dirModels = "/tmp/pict/models";
   const dirTests = "/tmp/pict/tests";
+  const dirSeeds = "/tmp/pict/seeds";
 
-  await mkdir(dirModels, { recursive: true });
-  await mkdir(dirTests, { recursive: true });
+  await Promise.allSettled([
+    mkdir(dirModels, { recursive: true }),
+    mkdir(dirTests, { recursive: true }),
+    mkdir(dirSeeds, { recursive: true }),
+  ]);
 
   const modelPath = `${dirModels}/${u4()}.txt`;
   const testsPath = `${dirTests}/${u4()}.${output}`;
+
+  let seedPath: string | undefined = undefined;
+  if (seedFile.length > 0) {
+    seedPath = `${dirSeeds}/${u4()}.txt`;
+    await writeFile(seedPath, seedFile, { encoding: "utf-8" });
+  }
 
   await writeFile(modelPath, data, { encoding: "utf-8" });
 
@@ -95,11 +108,11 @@ app.post("/generate", async (req, res) => {
   // handle errors
   try {
     const outType = output === "json" ? "json" : "text";
-    await generator.generate(outType, true, testsPath);
+    await generator.generate(outType, true, testsPath, seedPath ? seedPath : undefined, combOrder);
   } catch (error) {
     const msg = { error: { code: 500, message: "PICT generation of test cases failed." } };
-    res.status(500).json(msg);
     res.log.error({ ...msg, errorDetail: error });
+    res.status(500).json(msg);
   }
 
   // send file for download
