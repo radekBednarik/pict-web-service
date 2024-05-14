@@ -57,7 +57,7 @@ export function injectForm(element: HTMLDivElement) {
                 type="number" 
                 class="form-control" 
                 placeholder="Default value is 2" 
-                value="2" 
+                value=2 
                 aria-label="Combinatorial order" 
                 aria-describedby="comb-order-desc"/>
             </div>
@@ -72,6 +72,7 @@ export function injectForm(element: HTMLDivElement) {
                 id="seed-file"
                 name="seedFile"
                 type="file"
+                accept=".txt"
                 class="form-control"
                 placeholder="Select seed file"
                 aria-label="Seed file"
