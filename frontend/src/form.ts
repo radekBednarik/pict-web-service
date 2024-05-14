@@ -24,7 +24,7 @@ export function injectForm(element: HTMLDivElement) {
           >
             Fill in the PICT model specification:
         </label>
-        <textarea id="data" name="data" rows="20" cols="70"
+        <textarea id="data" name="data" rows="15" cols="70"
           placeholder="PICT model text goes here..." 
           autofocus="false"
           form="data-input-form"
@@ -33,14 +33,59 @@ export function injectForm(element: HTMLDivElement) {
           aria-describedby="ModelInput"
         ></textarea>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="output" id="optJson" value="json" checked />
-        <label class="form-check-label" for="optJson">JSON (.json) output</label>
+
+      <div class="container">
+        <div class="row justify-content-between align-items-center">
+
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="output" id="optJson" value="json" checked />
+              <label class="form-check-label" for="optJson">JSON (.json) output</label>
+            </div>
+            <div class="form-check mt-3">
+              <input class="form-check-input" type="radio" name="output" id="optText" value="txt" />
+              <label class="form-check-label" for="optText">Text (.txt) output</label>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="input-group mt-2">
+              <span class="input-group-text" id="comb-order-desc">Combinatorial order:</span>
+              <input 
+                id="comb-order"
+                name="combOrder"
+                type="number" 
+                class="form-control" 
+                placeholder="Default value is 2" 
+                value=2 
+                aria-label="Combinatorial order" 
+                aria-describedby="comb-order-desc"/>
+            </div>
+            <div class="input-group mt-2">
+              <span class="input-group-text" id="seed-file-desc">Provide &nbsp
+                <a href="https://github.com/microsoft/pict/blob/main/doc/pict.md#seeding" target="_blank" referrerpolicy="noreferrer">
+                  seed file
+                </a>
+                , if needed:
+              </span>
+              <input 
+                id="seed-file"
+                name="seedFile"
+                type="file"
+                accept=".txt"
+                class="form-control"
+                placeholder="Select seed file"
+                aria-label="Seed file"
+                aria-describedby="seed-file"
+              />
+            </div>
+          </div>
+
+        </div>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="output" id="optText" value="txt" />
-        <label class="form-check-label" for="optText">Text (.txt) output</label>
-      </div>
+
+      <hr/>
+
       <div class="mb-3">
         <label for="bttn-generate" class="form-label">
           Click to generate and download data:
@@ -69,9 +114,11 @@ export function injectForm(element: HTMLDivElement) {
   const form = element.querySelector<HTMLFormElement>("#data-input-form");
   const submitButton =
     element.querySelector<HTMLButtonElement>("#bttn-generate");
+  const seedFile = document.getElementById("seed-file") as HTMLInputElement;
 
   let modal = new Modal("#spinner-modal");
 
+  // handle the form submit
   form!.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
     submitButton!.disabled = true;
@@ -83,6 +130,8 @@ export function injectForm(element: HTMLDivElement) {
 
     // @ts-expect-error
     const encodedData = new URLSearchParams(new FormData(form!));
+    const seedFileContent = await seedFile!.files?.item(0)?.text();
+    encodedData.set("seedFile", seedFileContent ? seedFileContent : "");
 
     try {
       const response = await fetch(form!.action, {

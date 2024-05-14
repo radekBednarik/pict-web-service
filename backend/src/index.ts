@@ -50,42 +50,54 @@ app.post("/generate", async (req, res) => {
   // handle content type
   if (!req.accepts("application/x-www-form-urlencoded")) {
     const msg = { error: { code: 412, message: "Wrong Content-Type header value." } };
-    res.status(412).json(msg);
     res.log.error(msg);
+    res.status(412).json(msg);
   }
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "data")) {
     const msg = { error: { code: 400, message: "Data not provided in request body." } };
-    res.status(400).json(msg);
     res.log.error(msg);
+    res.status(400).json(msg);
   }
 
   if (req.body["data"].length === 0) {
     const msg = { error: { code: 400, message: "Empty form was sent." } };
-    res.status(400).json(msg);
     res.log.error(msg);
+    res.status(400).json(msg);
   }
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "output")) {
     const msg = { error: { code: 400, message: "Output file type was not provided." } };
-    res.status(400).json(msg);
     res.log.error(msg);
+    res.status(400).json(msg);
   }
 
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   const data = req.body["data"];
   const output = req.body["output"];
+  const combOrder = Number(req.body["combOrder"]);
+  const seedFile = req.body["seedFile"];
   // must save data so PICT can load them - this is perf penalty, but
   // since PICT is CLI first tool, it cannot be avoided
   const dirModels = "/tmp/pict/models";
   const dirTests = "/tmp/pict/tests";
+  const dirSeeds = "/tmp/pict/seeds";
 
-  await mkdir(dirModels, { recursive: true });
-  await mkdir(dirTests, { recursive: true });
+  await Promise.allSettled([
+    mkdir(dirModels, { recursive: true }),
+    mkdir(dirTests, { recursive: true }),
+    mkdir(dirSeeds, { recursive: true }),
+  ]);
 
   const modelPath = `${dirModels}/${u4()}.txt`;
   const testsPath = `${dirTests}/${u4()}.${output}`;
+
+  let seedPath: string | undefined = undefined;
+  if (seedFile.length > 0) {
+    seedPath = `${dirSeeds}/${u4()}.txt`;
+    await writeFile(seedPath, seedFile, { encoding: "utf-8" });
+  }
 
   await writeFile(modelPath, data, { encoding: "utf-8" });
 
@@ -95,11 +107,11 @@ app.post("/generate", async (req, res) => {
   // handle errors
   try {
     const outType = output === "json" ? "json" : "text";
-    await generator.generate(outType, true, testsPath);
+    await generator.generate(outType, true, testsPath, seedPath ? seedPath : undefined, combOrder);
   } catch (error) {
     const msg = { error: { code: 500, message: "PICT generation of test cases failed." } };
-    res.status(500).json(msg);
     res.log.error({ ...msg, errorDetail: error });
+    res.status(500).json(msg);
   }
 
   // send file for download

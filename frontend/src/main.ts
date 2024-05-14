@@ -10,7 +10,9 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     <div class="row">
       <div class="col mb-4" id="main-heading">
         <h1>
-          Pair-wise Test Generator
+          <a href="/" class="link-underline link-underline-opacity-0 link-body-emphasis">
+            Pair-wise Test Generator
+          </a>
         </h1>
       </div>
       <div class="col-3 mb-4 mt-2" id="theme-switch">
