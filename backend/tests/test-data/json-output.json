@@ -1,0 +1,156 @@
+[
+  [
+    {
+      "key": "OS",
+      "value": "Windows 11"
+    },
+    {
+      "key": "Browser",
+      "value": "Firefox"
+    },
+    {
+      "key": "Viewport",
+      "value": "desktop"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "Linux"
+    },
+    {
+      "key": "Browser",
+      "value": "Edge"
+    },
+    {
+      "key": "Viewport",
+      "value": "desktop"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "Windows 10"
+    },
+    {
+      "key": "Browser",
+      "value": "Edge"
+    },
+    {
+      "key": "Viewport",
+      "value": "mobile"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "Windows 11"
+    },
+    {
+      "key": "Browser",
+      "value": "Edge"
+    },
+    {
+      "key": "Viewport",
+      "value": "mobile"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "Windows 10"
+    },
+    {
+      "key": "Browser",
+      "value": "Chrome"
+    },
+    {
+      "key": "Viewport",
+      "value": "desktop"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "Windows 11"
+    },
+    {
+      "key": "Browser",
+      "value": "Chrome"
+    },
+    {
+      "key": "Viewport",
+      "value": "mobile"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "Linux"
+    },
+    {
+      "key": "Browser",
+      "value": "Firefox"
+    },
+    {
+      "key": "Viewport",
+      "value": "mobile"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "Windows 10"
+    },
+    {
+      "key": "Browser",
+      "value": "Firefox"
+    },
+    {
+      "key": "Viewport",
+      "value": "desktop"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "macOS"
+    },
+    {
+      "key": "Browser",
+      "value": "Safari"
+    },
+    {
+      "key": "Viewport",
+      "value": "mobile"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "macOS"
+    },
+    {
+      "key": "Browser",
+      "value": "Safari"
+    },
+    {
+      "key": "Viewport",
+      "value": "desktop"
+    }
+  ],
+  [
+    {
+      "key": "OS",
+      "value": "Linux"
+    },
+    {
+      "key": "Browser",
+      "value": "Chrome"
+    },
+    {
+      "key": "Viewport",
+      "value": "mobile"
+    }
+  ]
+]
