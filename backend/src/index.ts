@@ -50,26 +50,26 @@ app.post("/generate", async (req, res) => {
   // handle content type
   if (!req.accepts("application/x-www-form-urlencoded")) {
     const msg = { error: { code: 412, message: "Wrong Content-Type header value." } };
-    res.status(412).json(msg);
     res.log.error(msg);
+    res.status(412).json(msg);
   }
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "data")) {
     const msg = { error: { code: 400, message: "Data not provided in request body." } };
-    res.status(400).json(msg);
     res.log.error(msg);
+    res.status(400).json(msg);
   }
 
   if (req.body["data"].length === 0) {
     const msg = { error: { code: 400, message: "Empty form was sent." } };
-    res.status(400).json(msg);
     res.log.error(msg);
+    res.status(400).json(msg);
   }
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "output")) {
     const msg = { error: { code: 400, message: "Output file type was not provided." } };
-    res.status(400).json(msg);
     res.log.error(msg);
+    res.status(400).json(msg);
   }
 
   res.setHeader("Access-Control-Allow-Origin", "*");
