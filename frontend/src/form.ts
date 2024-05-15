@@ -159,16 +159,15 @@ export function injectForm(element: HTMLDivElement) {
       // since we are handling fetching data ourselves
       // we have to manually trigger the download of the file
       // browser will not do it
-      const outTypes = document.getElementsByName(
-        "output",
-      ) as NodeListOf<HTMLInputElement>;
+      const outTypes = document.getElementById("output") as HTMLSelectElement;
+      const options = outTypes!.options;
 
-      for (const item of outTypes) {
-        if (item.checked === true) {
+      for (const option of options) {
+        if (option.selected === true) {
           download(
             await response.blob(),
-            `downloaded-data.${item.value}`,
-            item.value === "json" ? "application/json" : "text/plain",
+            `downloaded-data.${option.value}`,
+            option.value === "json" ? "application/json" : "text/plain",
           );
           break;
         }
