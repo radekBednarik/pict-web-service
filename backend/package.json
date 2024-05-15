@@ -39,7 +39,8 @@
     "pino-http": "^9.0.0",
     "pino-pretty": "^11.0.0",
     "pwtg": "^0.2.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "prettier": {
     "tabWidth": 2,

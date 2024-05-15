@@ -1,0 +1,12 @@
+OS	Browser	Viewport
+Windows 11	Firefox	desktop
+Linux	Edge	desktop
+Windows 10	Edge	mobile
+Windows 11	Edge	mobile
+Windows 10	Chrome	desktop
+Windows 11	Chrome	mobile
+Linux	Firefox	mobile
+Windows 10	Firefox	desktop
+macOS	Safari	mobile
+macOS	Safari	desktop
+Linux	Chrome	mobile

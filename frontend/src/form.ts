@@ -35,21 +35,28 @@ export function injectForm(element: HTMLDivElement) {
       </div>
 
       <div class="container">
-        <div class="row justify-content-between align-items-center">
-
+        <div class="row justify-content-between align-items-start">
           <div class="col">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="output" id="optJson" value="json" checked />
-              <label class="form-check-label" for="optJson">JSON (.json) output</label>
-            </div>
-            <div class="form-check mt-3">
-              <input class="form-check-input" type="radio" name="output" id="optText" value="txt" />
-              <label class="form-check-label" for="optText">Text (.txt) output</label>
+            <div id="output-select-wrapper">
+              <label for="output">Select output file type:</label>
+              <select
+                class="form-select mt-2"
+                id="output"
+                name="output"
+                form="data-input-form"
+                aria-label="Output type select."
+              >
+                <option value="txt" selected>Text (.txt)</option>
+                <option value="json">JSON (.json)</option>
+                <option value="csv">CSV (.csv)</option>
+                <option value="xlsx">XLSX (.xlsx)</option>
+              </select>
             </div>
           </div>
 
           <div class="col">
-            <div class="input-group mt-2">
+            <label for="right-side-input-group">Other options:</label>
+            <div id="right-side-input-group" class="input-group mt-2">
               <span class="input-group-text" id="comb-order-desc">Combinatorial order:</span>
               <input 
                 id="comb-order"
@@ -152,16 +159,15 @@ export function injectForm(element: HTMLDivElement) {
       // since we are handling fetching data ourselves
       // we have to manually trigger the download of the file
       // browser will not do it
-      const outTypes = document.getElementsByName(
-        "output",
-      ) as NodeListOf<HTMLInputElement>;
+      const outTypes = document.getElementById("output") as HTMLSelectElement;
+      const options = outTypes!.options;
 
-      for (const item of outTypes) {
-        if (item.checked === true) {
+      for (const option of options) {
+        if (option.selected === true) {
           download(
             await response.blob(),
-            `downloaded-data.${item.value}`,
-            item.value === "json" ? "application/json" : "text/plain",
+            `downloaded-data.${option.value}`,
+            option.value === "json" ? "application/json" : "text/plain",
           );
           break;
         }
