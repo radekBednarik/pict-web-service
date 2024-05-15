@@ -46,7 +46,7 @@ export function saveJsonAsXlsx(inputData: string, outputPath: string): void {
 export async function saveTsvAsCsv(inputData: string, filepath: string): Promise<void> {
   try {
     const data = inputData.trim().replaceAll("\t", ",");
-    await writeFile(resolve(process.cwd(), filepath), data, { encoding: "utf-8" });
+    await writeFile(filepath, data, { encoding: "utf-8" });
   } catch (error) {
     throw new Error(`func tsvToCsv failed: ${error}`);
   }
