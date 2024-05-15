@@ -22,6 +22,7 @@ test.describe("functional", () => {
     test("output .json file is generated", async () => {
       await mainPage.locTextArea.clear();
       await mainPage.locTextArea.fill(pictInput);
+      await mainPage.locOutSelect.selectOption("json");
 
       const downloadPromise = mainPage.page.waitForEvent("download");
       await mainPage.locBttnSubmit.click();
@@ -37,7 +38,6 @@ test.describe("functional", () => {
     test("output .txt file is generated", async () => {
       await mainPage.locTextArea.clear();
       await mainPage.locTextArea.fill(pictInput);
-      await mainPage.locOptText.check();
 
       const downloadPromise = mainPage.page.waitForEvent("download");
       await mainPage.locBttnSubmit.click();
@@ -48,6 +48,38 @@ test.describe("functional", () => {
       const fullpath = await saveDownloadedFile(dirpath, download);
 
       expect(path.extname(fullpath)).toBe(".txt");
+    });
+
+    test("output .csv file is generated", async () => {
+      await mainPage.locTextArea.clear();
+      await mainPage.locTextArea.fill(pictInput);
+      await mainPage.locOutSelect.selectOption("csv");
+
+      const downloadPromise = mainPage.page.waitForEvent("download");
+      await mainPage.locBttnSubmit.click();
+      const download = await downloadPromise;
+
+      expect(await download.failure()).toBeNull();
+
+      const fullpath = await saveDownloadedFile(dirpath, download);
+
+      expect(path.extname(fullpath)).toBe(".csv");
+    });
+
+    test("output .xlsx file is generated", async () => {
+      await mainPage.locTextArea.clear();
+      await mainPage.locTextArea.fill(pictInput);
+      await mainPage.locOutSelect.selectOption("xlsx");
+
+      const downloadPromise = mainPage.page.waitForEvent("download");
+      await mainPage.locBttnSubmit.click();
+      const download = await downloadPromise;
+
+      expect(await download.failure()).toBeNull();
+
+      const fullpath = await saveDownloadedFile(dirpath, download);
+
+      expect(path.extname(fullpath)).toBe(".xlsx");
     });
 
     // skipped due to: https://github.com/microsoft/playwright/issues/8114

@@ -15,10 +15,7 @@ test.describe("visibility", () => {
     await expect.soft(mainPage.locBttnThemeSwitch).toBeVisible();
     await expect.soft(mainPage.locDescriptionSection).toBeVisible();
     await expect.soft(mainPage.locTextArea).toBeVisible();
-    await expect.soft(mainPage.locOptJson).toBeVisible();
-    await expect.soft(mainPage.locOptJson).toBeChecked();
-    await expect.soft(mainPage.locOptText).toBeVisible();
-    await expect.soft(mainPage.locOptText).not.toBeChecked();
+    await expect.soft(mainPage.locOutSelect).toBeVisible();
     await expect.soft(mainPage.locBttnSubmit).toBeVisible();
 
     await expect.soft(mainPage.locModalSpinner).not.toBeVisible();
