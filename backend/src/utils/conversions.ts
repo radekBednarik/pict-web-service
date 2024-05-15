@@ -40,13 +40,19 @@ export function saveJsonAsXlsx(inputData: string, outputPath: string): void {
  *
  * @param inputData string
  * @param filepath string
+ * @param pathStart string
  * @throws
  * @returns Promise<void>
  **/
-export async function saveTsvAsCsv(inputData: string, filepath: string): Promise<void> {
+export async function saveTsvAsCsv(inputData: string, filepath: string, pathStart: string): Promise<void> {
   try {
     const data = inputData.trim().replaceAll("\t", ",");
-    await writeFile(filepath, data, { encoding: "utf-8" });
+    const resPath = resolve(filepath);
+
+    if (!resPath.startsWith(pathStart)) {
+      throw new Error(`destination file path does not start with ${pathStart}`);
+    }
+    await writeFile(resPath, data, { encoding: "utf-8" });
   } catch (error) {
     throw new Error(`func tsvToCsv failed: ${error}`);
   }

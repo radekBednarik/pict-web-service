@@ -125,11 +125,23 @@ app.post("/generate", async (req, res) => {
   // if needed output is `csv` or `xlsx`, then
   // further processing is needed
   if (output === "csv") {
-    await saveTsvAsCsv(generator.generated!, testsPath);
+    try {
+      await saveTsvAsCsv(generator.generated!, testsPath, dirTests);
+    } catch (error) {
+      const msg = { error: { code: 500, message: "Failed to convert and save .tsv as .csv" } };
+      res.log.error(error);
+      res.status(500).json({ ...msg, errorDetail: error });
+    }
   }
 
   if (output === "xlsx") {
-    saveJsonAsXlsx(generator.generated!, testsPath);
+    try {
+      saveJsonAsXlsx(generator.generated!, testsPath);
+    } catch (error) {
+      const msg = { error: { code: 500, message: "Failed to convert and save .json as .xlsx" } };
+      res.log.error(error);
+      res.status(500).json({ ...msg, errorDetail: error });
+    }
   }
 
   // send file for download
