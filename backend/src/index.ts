@@ -7,6 +7,10 @@ import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 import PictGenerator from "pwtg";
 
+import { saveTsvAsCsv, saveJsonAsXlsx } from "./utils/conversions.js";
+import { getOutType } from "./utils/utils.js";
+import type { Output } from "./utils/utils.js";
+
 // logger
 const transports = pino.transport({
   targets: [
@@ -79,7 +83,7 @@ app.post("/generate", async (req, res) => {
   res.setHeader("Cache-Control", "no-cache");
 
   const data = req.body["data"];
-  const output = req.body["output"];
+  const output = req.body["output"] as Output;
   const combOrder = Number(req.body["combOrder"]);
   const seedFile = req.body["seedFile"];
   // must save data so PICT can load them - this is perf penalty, but
@@ -110,7 +114,7 @@ app.post("/generate", async (req, res) => {
   // generate JSON file and save it, so it can be downloaded via express api
   // handle errors
   try {
-    const outType = output === "json" ? "json" : "text";
+    const outType = getOutType(output);
     await generator.generate(outType, true, testsPath, seedPath ? seedPath : undefined, combOrder);
   } catch (error) {
     const msg = { error: { code: 500, message: "PICT generation of test cases failed." } };
@@ -118,12 +122,22 @@ app.post("/generate", async (req, res) => {
     res.status(500).json(msg);
   }
 
+  // if needed output is `csv` or `xlsx`, then
+  // further processing is needed
+  if (output === "csv") {
+    await saveTsvAsCsv(generator.generated!, testsPath);
+  }
+
+  if (output === "xlsx") {
+    saveJsonAsXlsx(generator.generated!, testsPath);
+  }
+
   // send file for download
   res.download(testsPath, async (err) => {
     if (err && !res.headersSent) {
       const msg = { error: { code: 500, message: "Downloading file failed." } };
-      res.status(500).json(msg);
       res.log.error({ ...msg, errorDetail: err });
+      res.status(500).json(msg);
     }
   });
 });
