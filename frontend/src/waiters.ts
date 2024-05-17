@@ -10,13 +10,8 @@ export function waitForAttributeChange(
           mutation.type === "attributes" &&
           mutation.attributeName === attributeName
         ) {
-          if (
-            element.hasAttribute(attributeName) ||
-            !element.hasAttribute(attributeName)
-          ) {
-            observer.disconnect();
-            resolve(element.getAttribute(attributeName));
-          }
+          observer.disconnect();
+          resolve(element.getAttribute(attributeName));
         }
       }
     });
@@ -28,9 +23,7 @@ export function waitForAttributeChange(
     setTimeout(() => {
       observer.disconnect();
       reject(
-        new Error(
-          `Timeout waiting for attribute '${attributeName}' to be either present or not present`,
-        ),
+        new Error(`Timeout waiting for attribute '${attributeName}' change`),
       );
     }, 2000); // Adjust the timeout duration as needed
   });
