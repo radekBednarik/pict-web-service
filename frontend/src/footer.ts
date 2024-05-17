@@ -16,8 +16,14 @@ export function injectFooter(element: HTMLDivElement) {
       &nbsp
       |
       &nbsp
-      <div id="github-image-wrapper">
-      </div>
+      <a 
+        href="https://github.com/radekBednarik/pict-web-service" 
+        class="link-underline link-underline-opacity-0 link-body-emphasis"
+        target="_blank" referrerpolicy="no-referrer"
+      >
+        <div id="github-image-wrapper">
+        </div>
+      </a>
     </div>
   `;
 }
