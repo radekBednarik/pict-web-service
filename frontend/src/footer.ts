@@ -1,3 +1,5 @@
+import { waitForAttributeChange } from "./waiters.js";
+
 export function injectFooter(element: HTMLDivElement) {
   element.innerHTML = `
     <div class="bg-primary-subtle rounded d-flex justify-content-between align-items-center">
@@ -18,8 +20,10 @@ export function injectFooter(element: HTMLDivElement) {
   `;
 }
 
-export function injectImage(element: HTMLDivElement) {
-  const theme = window.localStorage.getItem("theme");
+export function injectImage(
+  element: HTMLDivElement,
+  htmlElAttVal: string | null,
+) {
   const imageEl = document.createElement("img");
 
   // set attributes
@@ -29,9 +33,8 @@ export function injectImage(element: HTMLDivElement) {
   imageEl.fetchPriority = "low";
   imageEl.height = 40;
 
-  switch (theme) {
+  switch (htmlElAttVal) {
     case null:
-    case "light":
       imageEl.src = "./github-mark.png";
       break;
     default:
@@ -43,8 +46,6 @@ export function injectImage(element: HTMLDivElement) {
   const potentialImgEl =
     element.querySelector<HTMLImageElement>("#github-logo");
 
-  console.log(potentialImgEl?.src);
-
   if (potentialImgEl) {
     potentialImgEl.remove();
   }
@@ -53,13 +54,14 @@ export function injectImage(element: HTMLDivElement) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const htmlEl = document.querySelector<HTMLElement>("html");
   const imageWrapper = document.getElementById(
     "github-image-wrapper",
   ) as HTMLDivElement;
 
-  // append specific image after elements are render
+  // append specific image after elements are rendered
   if (imageWrapper) {
-    injectImage(imageWrapper);
+    injectImage(imageWrapper, htmlEl!.getAttribute("data-bs-theme"));
   }
 
   const switchThemeEl = document.getElementById(
@@ -68,8 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // handle loading correct image when theme is changed
   switchThemeEl!.addEventListener("click", () => {
-    injectImage(
-      document.getElementById("github-image-wrapper") as HTMLDivElement,
-    );
+    waitForAttributeChange(htmlEl!, "data-bs-theme")
+      .then((value) => {
+        injectImage(imageWrapper, value);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
   });
 });
