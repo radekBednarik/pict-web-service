@@ -18,8 +18,7 @@ export function injectFooter(element: HTMLDivElement) {
   `;
 }
 
-function injectImage(element: HTMLDivElement) {
-  console.log(element.tagName);
+export function injectImage(element: HTMLDivElement) {
   const theme = window.localStorage.getItem("theme");
   const imageEl = document.createElement("img");
 
@@ -32,8 +31,6 @@ function injectImage(element: HTMLDivElement) {
 
   switch (theme) {
     case null:
-      imageEl.src = "./github-mark.png";
-      break;
     case "light":
       imageEl.src = "./github-mark.png";
       break;
@@ -45,21 +42,32 @@ function injectImage(element: HTMLDivElement) {
   // remove element, if it was already rendered
   const potentialImgEl =
     element.querySelector<HTMLImageElement>("#github-logo");
-  if (potentialImgEl && element.contains(potentialImgEl)) {
-    element.removeChild(imageEl);
+
+  console.log(potentialImgEl?.src);
+
+  if (potentialImgEl) {
+    potentialImgEl.remove();
   }
   // then append newly created to DOM
   element.appendChild(imageEl);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const imageWrapper = document.getElementById(
+    "github-image-wrapper",
+  ) as HTMLDivElement;
+
   // append specific image after elements are render
-  injectImage(
-    document.getElementById("github-image-wrapper") as HTMLDivElement,
-  );
+  if (imageWrapper) {
+    injectImage(imageWrapper);
+  }
+
+  const switchThemeEl = document.getElementById(
+    "switch-theme",
+  ) as HTMLInputElement;
 
   // handle loading correct image when theme is changed
-  document.getElementById("switch-theme")!.addEventListener("click", () => {
+  switchThemeEl!.addEventListener("click", () => {
     injectImage(
       document.getElementById("github-image-wrapper") as HTMLDivElement,
     );
