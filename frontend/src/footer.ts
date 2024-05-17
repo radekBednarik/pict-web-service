@@ -28,11 +28,9 @@ export function injectFooter(element: HTMLDivElement) {
   `;
 }
 
-export function injectImage(
-  element: HTMLDivElement,
-  htmlElAttVal: string | null,
-) {
+function injectImage(element: HTMLDivElement, htmlElAttVal: string | null) {
   const imageEl = document.createElement("img");
+  console.log(htmlElAttVal);
 
   // set attributes
   imageEl.id = "github-logo";
@@ -69,6 +67,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // append specific image after elements are rendered
   if (imageWrapper) {
+    // waitForAttributeChange(htmlEl!, "data-bs-theme").then((value) => {
+    //     injectImage(imageWrapper, value);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err.message);
+    //   });
     injectImage(imageWrapper, htmlEl!.getAttribute("data-bs-theme"));
   }
 

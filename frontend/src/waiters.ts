@@ -1,4 +1,3 @@
-// Define the function to wait until the attribute is either not present or has a specific value
 export function waitForAttributeChange(
   element: HTMLElement,
   attributeName: string,
@@ -17,7 +16,6 @@ export function waitForAttributeChange(
           ) {
             observer.disconnect();
             resolve(element.getAttribute(attributeName));
-            return element.getAttribute(attributeName);
           }
         }
       }
