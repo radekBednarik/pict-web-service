@@ -2,9 +2,7 @@ import { waitForAttributeChange } from "./waiters.js";
 
 export function injectFooter(element: HTMLDivElement) {
   element.innerHTML = `
-    <div class="bg-primary-subtle rounded d-flex justify-content-between align-items-center">
-      <div id="github-image-wrapper">
-      </div>
+    <div class="bg-primary-subtle rounded d-flex justify-content-end align-items-center p-2">
       <p class="mt-3 pt-3 pb-3">
         &copy 2024
         <a href="mailto:radek.bednarik@tesena.com">
@@ -14,8 +12,12 @@ export function injectFooter(element: HTMLDivElement) {
         <a href="https://https://www.tesena.com/en" target="_blank" referrerpolicy="no-referrer">
           Tesena.com
         </a>
-        &nbsp
       </p>
+      &nbsp
+      |
+      &nbsp
+      <div id="github-image-wrapper">
+      </div>
     </div>
   `;
 }
@@ -31,7 +33,7 @@ export function injectImage(
   imageEl.crossOrigin = "anonymous";
   imageEl.decoding = "async";
   imageEl.fetchPriority = "low";
-  imageEl.height = 40;
+  imageEl.height = 30;
 
   switch (htmlElAttVal) {
     case null:
