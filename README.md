@@ -15,7 +15,8 @@ Read these:
 
 ## Deployment
 
-Application is currently available on Render domain. This is temporary solution.
+Application is currently available on [Render domain](https://pict-web-service-frontend.onrender.com/).
+This is temporary solution.
 
 Also, please note, that we are using free tier of Render service,
 which results in slow spin up of the backend server and first response
