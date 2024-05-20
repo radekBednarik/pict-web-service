@@ -7,6 +7,7 @@ ARG LOG_FILE_PATH
 
 ENV NODE_VERSION=20.12.2
 ENV NVM_DIR=/root/.nvm
+ENV NODE_ENV=production
 
 RUN apt-get update && apt-get install -y curl build-essential
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
