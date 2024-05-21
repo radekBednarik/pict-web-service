@@ -5,11 +5,11 @@ export function injectFooter(element: HTMLDivElement) {
     <div class="bg-primary-subtle rounded d-flex justify-content-end align-items-center p-2">
       <p class="mt-3 pt-3 pb-3">
         &copy 2024
-        <a href="mailto:radek.bednarik@tesena.com">
+        <a href="https://github.com/radekBednarik" target="_blank" referrerpolicy="no-referrer">
           Radek Bednarik
         </a>
         |
-        <a href="https://https://www.tesena.com/en" target="_blank" referrerpolicy="no-referrer">
+        <a href="https://www.tesena.com/en" target="_blank" referrerpolicy="no-referrer">
           Tesena.com
         </a>
       </p>
