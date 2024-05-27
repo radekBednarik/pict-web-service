@@ -129,8 +129,8 @@ app.post("/generate", async (req, res) => {
       await saveTsvAsCsv(generator.generated!, testsPath, dirTests);
     } catch (error) {
       const msg = { error: { code: 500, message: "Failed to convert and save .tsv as .csv" } };
-      res.log.error(error);
-      res.status(500).json({ ...msg, errorDetail: error });
+      res.log.error({ ...msg, errorDetail: error });
+      res.status(500).json(msg);
     }
   }
 
@@ -139,8 +139,8 @@ app.post("/generate", async (req, res) => {
       saveJsonAsXlsx(generator.generated!, testsPath);
     } catch (error) {
       const msg = { error: { code: 500, message: "Failed to convert and save .json as .xlsx" } };
-      res.log.error(error);
-      res.status(500).json({ ...msg, errorDetail: error });
+      res.log.error({ ...msg, errorDetail: error });
+      res.status(500).json(msg);
     }
   }
 
