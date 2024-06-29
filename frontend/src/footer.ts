@@ -37,6 +37,7 @@ function injectImage(element: HTMLDivElement, htmlElAttVal: string | null) {
   imageEl.decoding = "async";
   imageEl.fetchPriority = "low";
   imageEl.height = 25;
+  imageEl.alt = "Link to this page Github repository.";
 
   switch (htmlElAttVal) {
     case null:
