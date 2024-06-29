@@ -34,15 +34,17 @@ export function injectDescription(element: HTMLDivElement) {
             under the hood. It is an open-source program developed by Microsoft,
             which enables to easily generate test cases in line with pair-wise
             testing strategy.<br />
-            You can find detailed documentation, regarding how to write the input
-            model for the PICT
+            Please 
             <a
               href="https://github.com/microsoft/pict/blob/main/doc/pict.md"
               target="_blank"
               referrerpolicy="no-referrer-when-downgrade"
+              alt="Link to PICT Github repository readme file."
             >
-              here </a
-            >.
+            read detailed documentation
+            </a>
+            regarding how to write the input
+            model for the PICT.
           </div>
         </div>
       </div>

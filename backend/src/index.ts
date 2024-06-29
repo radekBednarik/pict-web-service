@@ -120,6 +120,7 @@ app.post("/generate", async (req, res) => {
     const msg = { error: { code: 500, message: "PICT generation of test cases failed." } };
     res.log.error({ ...msg, errorDetail: error });
     res.status(500).json(msg);
+    return;
   }
 
   // if needed output is `csv` or `xlsx`, then
@@ -131,6 +132,7 @@ app.post("/generate", async (req, res) => {
       const msg = { error: { code: 500, message: "Failed to convert and save .tsv as .csv" } };
       res.log.error({ ...msg, errorDetail: error });
       res.status(500).json(msg);
+      return;
     }
   }
 
@@ -141,6 +143,7 @@ app.post("/generate", async (req, res) => {
       const msg = { error: { code: 500, message: "Failed to convert and save .json as .xlsx" } };
       res.log.error({ ...msg, errorDetail: error });
       res.status(500).json(msg);
+      return;
     }
   }
 
@@ -150,6 +153,7 @@ app.post("/generate", async (req, res) => {
       const msg = { error: { code: 500, message: "Downloading file failed." } };
       res.log.error({ ...msg, errorDetail: err });
       res.status(500).json(msg);
+      return;
     }
   });
 });
