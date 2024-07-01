@@ -56,24 +56,28 @@ app.post("/generate", async (req, res) => {
     const msg = { error: { code: 412, message: "Wrong Content-Type header value." } };
     res.log.error(msg);
     res.status(412).json(msg);
+    return;
   }
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "data")) {
     const msg = { error: { code: 400, message: "Data not provided in request body." } };
     res.log.error(msg);
     res.status(400).json(msg);
+    return;
   }
 
   if (req.body["data"].length === 0) {
     const msg = { error: { code: 400, message: "Empty form was sent." } };
     res.log.error(msg);
     res.status(400).json(msg);
+    return;
   }
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "output")) {
     const msg = { error: { code: 400, message: "Output file type was not provided." } };
     res.log.error(msg);
     res.status(400).json(msg);
+    return;
   }
 
   res.setHeader("Access-Control-Request-Method", "POST");
