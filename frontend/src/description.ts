@@ -45,46 +45,31 @@ export function injectDescription(element: HTMLDivElement) {
             </a>
             regarding how to write the input
             model for the PICT.
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
-          <button
-            id="accordion-example-button"
-            class="accordion-button collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseTwo"
-            aria-expanded="false"
-            aria-controls="collapseTwo"
-          >
-            Example of the PICT model input
-          </button>
-        </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#desc-group">
-          <div class="accordion-body">
-            <div class="d-flex justify-content-end">
+            <hr>
+            <div class="d-flex justify-content-start mt-2">
               <button 
                 id="copy" 
                 type="button" 
                 class="btn btn-sm btn-outline-primary mb-2"
               >
-                Copy
+                Try this! 
               </button>
             </div>
-            <pre id="pict-input-example">
+            <div>
+              <pre id="pict-input-example">
 OS: Windows 11, Windows 10, Linux, macOS
 Browser: Chrome, Edge, Firefox, Safari
 Viewport: desktop, mobile
 
 IF [OS] = "macOS" THEN [Browser] = "Safari";
 IF [OS] <> "macOS" THEN [Browser] <> "Safari";
-            </pre>
+              </pre>
+            </div>
           </div>
         </div>
       </div>
-    </div>`;
+     </div>
+    `;
 
   // enable collapsing of accordion items
   document.addEventListener("DOMContentLoaded", () => {
@@ -96,10 +81,16 @@ IF [OS] <> "macOS" THEN [Browser] <> "Safari";
 
   // enable copying
   document.getElementById("copy")!.addEventListener("click", async () => {
-    const exampleInputEl = document.getElementById("pict-input-example")!;
+    const exampleInputEl = document.getElementById(
+      "pict-input-example",
+    ) as HTMLPreElement;
+    const formDataInputEl = document.getElementById(
+      "data",
+    ) as HTMLTextAreaElement;
 
     try {
       await navigator.clipboard.writeText(exampleInputEl.textContent!.trim());
+      formDataInputEl!.value = await navigator.clipboard.readText();
     } catch (error) {
       console.error(`Unable to copy text. ${error}`);
     }

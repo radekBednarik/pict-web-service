@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@playwright/test": "^1.44.0",
+    "@playwright/test": "^1.45.1",
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^20.12.8",
     "rimraf": "^5.0.5",

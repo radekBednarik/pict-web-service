@@ -82,19 +82,6 @@ test.describe("functional", () => {
       expect(path.extname(fullpath)).toBe(".xlsx");
     });
 
-    // skipped due to: https://github.com/microsoft/playwright/issues/8114
-    test.skip("copy button works", async () => {
-      await mainPage.locBttnDescExample.click();
-      await mainPage.locExampleModel.waitFor({ state: "visible" });
-      await mainPage.locBttnCopy.click();
-
-      const clipContent = await mainPage.page.evaluate(async () => {
-        return await navigator.clipboard.readText();
-      });
-
-      expect(clipContent).not.toHaveLength(0);
-    });
-
     test.describe("light/dark theme", () => {
       test("light theme is set on open", async () => {
         await expect(mainPage.locBttnThemeSwitch).not.toBeChecked();
