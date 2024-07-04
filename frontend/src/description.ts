@@ -81,7 +81,9 @@ IF [OS] <> "macOS" THEN [Browser] <> "Safari";
 
   // enable copying
   document.getElementById("copy")!.addEventListener("click", async () => {
-    const exampleInputEl = document.getElementById("pict-input-example")!;
+    const exampleInputEl = document.getElementById(
+      "pict-input-example",
+    ) as HTMLPreElement;
     const formDataInputEl = document.getElementById(
       "data",
     ) as HTMLTextAreaElement;
