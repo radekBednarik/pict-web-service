@@ -52,7 +52,7 @@ export function injectDescription(element: HTMLDivElement) {
                 type="button" 
                 class="btn btn-sm btn-outline-primary mb-2"
               >
-                Try this! 
+                Click to try the example model below! 
               </button>
             </div>
             <div>
