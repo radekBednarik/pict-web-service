@@ -45,25 +45,6 @@ export function injectDescription(element: HTMLDivElement) {
             </a>
             regarding how to write the input
             model for the PICT.
-            <hr>
-            <div class="d-flex justify-content-start mt-2">
-              <button 
-                id="copy" 
-                type="button" 
-                class="btn btn-sm btn-outline-primary mb-2"
-              >
-                Click to try the example model below! 
-              </button>
-            </div>
-            <div>
-              <pre id="pict-input-example">
-OS: Windows 11, Windows 10, Linux, macOS
-Browser: Chrome, Edge, Firefox, Safari
-Viewport: desktop, mobile
-
-IF [OS] = "macOS" THEN [Browser] = "Safari";
-IF [OS] <> "macOS" THEN [Browser] <> "Safari";
-              </pre>
             </div>
           </div>
         </div>
@@ -77,22 +58,5 @@ IF [OS] <> "macOS" THEN [Browser] <> "Safari";
     [...collapseElementList].map(
       (collapseEl) => new Collapse(collapseEl, { toggle: false }),
     );
-  });
-
-  // enable copying
-  document.getElementById("copy")!.addEventListener("click", async () => {
-    const exampleInputEl = document.getElementById(
-      "pict-input-example",
-    ) as HTMLPreElement;
-    const formDataInputEl = document.getElementById(
-      "data",
-    ) as HTMLTextAreaElement;
-
-    try {
-      await navigator.clipboard.writeText(exampleInputEl.textContent!.trim());
-      formDataInputEl!.value = await navigator.clipboard.readText();
-    } catch (error) {
-      console.error(`Unable to copy text. ${error}`);
-    }
   });
 }
