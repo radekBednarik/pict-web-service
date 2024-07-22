@@ -6,6 +6,17 @@ import { injectSpinnerModal } from "./spinner-modal";
 export function injectForm(element: HTMLDivElement) {
   const baseUrl = import.meta.env.VITE_SERVER_BASE_URL;
   const endpoint = `${baseUrl}/generate`;
+  const textAreaValue =
+    '# this is an example of the PICT model input\n\
+# that will generate tests for pair-wise combinations\n\
+# of parameters \'OS\', \'Browser\' and \'Viewport\'\n\
+# \n\
+OS: Windows 11, Windows 10, Linux, macOS\n\
+Browser: Chrome, Edge, Firefox, Safari\n\
+Viewport: desktop, mobile\n\
+\n\
+IF [OS] = "macOS" THEN [Browser] = "Safari";\n\
+IF [OS] <> "macOS" THEN [Browser] <> "Safari";';
 
   element.innerHTML = `
     <div id="spinner-modal-wrapper">
@@ -22,7 +33,7 @@ export function injectForm(element: HTMLDivElement) {
         <label for="data" 
           class="form-label" 
           >
-            Fill in the PICT model specification:
+            <b>Fill in the PICT model specification:</b>
         </label>
         <textarea id="data" name="data" rows="15" cols="70"
           placeholder="PICT model text goes here..." 
@@ -31,7 +42,7 @@ export function injectForm(element: HTMLDivElement) {
           required="true"
           class="form-control"
           aria-describedby="ModelInput"
-        ></textarea>
+        >${textAreaValue}</textarea>
       </div>
 
       <div class="container">
