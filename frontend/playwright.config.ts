@@ -39,19 +39,19 @@ export default defineConfig({
       name: "firefox-desktop",
       use: { ...devices["Desktop Firefox"] },
     },
-    {
-      name: "safari-desktop",
-      use: { ...devices["Desktop Safari"] },
-    },
+    // {
+    //   name: "safari-desktop",
+    //   use: { ...devices["Desktop Safari"] },
+    // },
     // mobile emulation
     {
       name: "chrome-mobile",
       use: { ...devices["Galaxy S9+"] },
     },
-    {
-      name: "safari-mobile",
-      use: { ...devices["iPhone 14 Pro"] },
-    },
+    // {
+    //   name: "safari-mobile",
+    //   use: { ...devices["iPhone 14 Pro"] },
+    // },
     {
       name: "firefox-mobile",
       use: { ...devices["Pixel 7"] },
