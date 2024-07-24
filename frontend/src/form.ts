@@ -7,9 +7,12 @@ export function injectForm(element: HTMLDivElement) {
   const baseUrl = import.meta.env.VITE_SERVER_BASE_URL;
   const endpoint = `${baseUrl}/generate`;
   const textAreaValue =
-    '# this is an example of the PICT model input\n\
+    '# This is an example of the PICT model input\n\
 # that will generate tests for pair-wise combinations\n\
-# of parameters \'OS\', \'Browser\' and \'Viewport\'\n\
+# of parameters \'OS\', \'Browser\' and \'Viewport\'.\n\
+# \n\
+# Just click Generate button and browser will automatically\n\
+# download the file with generated tests\n\
 # \n\
 OS: Windows 11, Windows 10, Linux, macOS\n\
 Browser: Chrome, Edge, Firefox, Safari\n\
@@ -68,14 +71,23 @@ IF [OS] <> "macOS" THEN [Browser] <> "Safari";';
           <div class="col">
             <label for="right-side-input-group">Other options:</label>
             <div id="right-side-input-group" class="input-group mt-2">
-              <span class="input-group-text" id="comb-order-desc">Combinatorial order:</span>
+              <span class="input-group-text" id="comb-order-desc">
+                <a
+                  href="https://github.com/microsoft/pict/blob/main/doc/pict.md#usage"
+                  target="_blank"
+                  referrerpolicy="noreferrer"
+                >
+                  Combinatorial order:
+                </a>
+              </span>
               <input 
                 id="comb-order"
                 name="combOrder"
                 type="number" 
                 class="form-control" 
                 placeholder="Default value is 2" 
-                value=2 
+                value=2
+                min=1
                 aria-label="Combinatorial order" 
                 aria-describedby="comb-order-desc"/>
             </div>
