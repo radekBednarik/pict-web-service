@@ -10,6 +10,7 @@ import PictGenerator from "pwtg";
 import { saveTsvAsCsv, saveJsonAsXlsx } from "./utils/conversions.js";
 import { getOutType } from "./utils/utils.js";
 import type { Output } from "./utils/utils.js";
+import { setCSPValue } from "./utils/headers.js";
 
 // logger
 const transports = pino.transport({
@@ -82,10 +83,7 @@ app.post("/generate", async (req, res) => {
 
   res.setHeader("Access-Control-Request-Method", "POST");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'self' localhost:4000 pict-web-service-backend.onrender.com www.clarity.ms 'unsafe-inline'; img-src * data:;",
-  );
+  res.setHeader("Content-Security-Policy", setCSPValue());
   res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   res.setHeader("Cache-Control", "no-cache");
 
