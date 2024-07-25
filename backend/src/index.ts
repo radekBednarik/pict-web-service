@@ -82,7 +82,10 @@ app.post("/generate", async (req, res) => {
 
   res.setHeader("Access-Control-Request-Method", "POST");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Content-Security-Policy", "default-src 'self'");
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self' localhost:4000 pict-web-service-backend.onrender.com www.clarity.ms 'unsafe-inline'; img-src * data:;",
+  );
   res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   res.setHeader("Cache-Control", "no-cache");
 
