@@ -18,28 +18,17 @@ jobs:
         with:
           node-version: 20
 
-      - name: install OS deps
-        run: apt-get install tree -y
-
       - name: Show repo dir tree
         run: tree .
-
-      - name: start backend server
-        run: cd backend && npm ci && npm run dev & cd ..
-        env:
-          PORT: 4000
-          PICT_LOC: ./binaries/pict
-          LOG_FILE_PATH: server.log
-
-      - name: start frontend app
-        run: cd frontend && npm ci && npm run build && npm run preview &
-        env:
-          VITE_SERVER_BASE_URL: http://localhost:4000
 
       - name: run tests
         run: npm ci && npx playwright --version && npx playwright test
         env:
           HOME: /root
+          PORT: 4000
+          PICT_LOC: ./binaries/pict
+          LOG_FILE_PATH: server.log
+          VITE_SERVER_BASE_URL: http://localhost:4000
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
