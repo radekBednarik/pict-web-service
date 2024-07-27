@@ -19,10 +19,10 @@ jobs:
           node-version: 20
 
       - name: install deps
-        run: cd backend && npm ci && cd ../frontend && npm ci
+        run: ./npm-install.sh
 
       - name: install playwright
-        run: npx playwright install --with-deps
+        run: cd frontend && npx playwright install --with-deps
 
       - name: run tests
         run: npx playwright test
