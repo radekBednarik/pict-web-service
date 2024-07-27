@@ -21,14 +21,14 @@ jobs:
         shell: bash
 
       - name: start backend server
-        run: cd backend && npm run dev && cd ..
+        run: cd backend && npm run dev & cd ..
         env:
           PORT: 4000
           PICT_LOC: ./binaries/pict
           LOG_FILE_PATH: server.log
 
       - name: start frontend app
-        run: cd frontend && npm run build && npm run preview
+        run: cd frontend && npm run build && npm run preview &
         env:
           VITE_SERVER_BASE_URL: http://localhost:4000
 
