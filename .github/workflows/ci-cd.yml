@@ -9,8 +9,6 @@ jobs:
     name: "E2E tests"
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.45.3-jammy
 
     steps:
       - uses: actions/checkout@v4
@@ -24,8 +22,11 @@ jobs:
         run: ./npm-install.sh
         shell: bash
 
+      - name: install playwright
+        run: cd frontend && npx playwright install --with-deps
+
       - name: run tests
-        run: cd frontend && npx playwright test
+        run: npx playwright test
         env:
           HOME: /root
           PORT: 4000
