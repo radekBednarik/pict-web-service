@@ -24,6 +24,9 @@ jobs:
       - name: install playwright
         run: cd frontend && npx playwright install --with-deps
 
+      - name: fix npm cache permissions
+        run: sudo chown -R $(whoami) ~/.npm
+
       - name: run tests
         run: npx playwright test
         env:
