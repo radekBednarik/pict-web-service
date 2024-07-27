@@ -28,11 +28,8 @@ jobs:
         env:
           VITE_SERVER_BASE_URL: http://localhost:4000
 
-      - name: install pw deps and browsers
-        run: npx playwright install --with-deps
-
       - name: run tests
-        run: npx playwright test
+        run: npx playwright --version && npx playwright test
         env:
           HOME: /root
 
