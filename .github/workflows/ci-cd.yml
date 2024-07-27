@@ -8,13 +8,13 @@ jobs:
   test:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.45.3-jammy
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
 
       - name: start backend server
         run: cd backend && npm ci && npm run dev & cd ..
@@ -33,6 +33,8 @@ jobs:
 
       - name: run tests
         run: npx playwright test
+        env:
+          HOME: /root
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
