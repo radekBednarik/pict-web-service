@@ -24,13 +24,9 @@ jobs:
       - name: install playwright
         run: cd frontend && npx playwright install --with-deps
 
-      - name: fix npm cache permissions
-        run: sudo chown -R $(whoami) ~/.npm
-
       - name: run tests
         run: npx playwright test
         env:
-          HOME: /root
           PORT: 4000
           PICT_LOC: ./binaries/pict
           LOG_FILE_PATH: server.log
