@@ -6,15 +6,23 @@ on:
 
 jobs:
   test:
+    name: "E2E tests"
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.45.3-jammy
+    container:
+      image: mcr.microsoft.com/playwright:v1.45.3-jammy
 
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
+
+      - name: install OS deps
+        run: apt-get install tree -y
+
+      - name: Show repo dir tree
+        run: tree .
 
       - name: start backend server
         run: cd backend && npm ci && npm run dev & cd ..
@@ -29,7 +37,7 @@ jobs:
           VITE_SERVER_BASE_URL: http://localhost:4000
 
       - name: run tests
-        run: npx playwright --version && npx playwright test
+        run: npm ci && npx playwright --version && npx playwright test
         env:
           HOME: /root
 
