@@ -22,7 +22,7 @@ jobs:
         run: ./npm-install.sh
 
       - name: install playwright
-        run: cd frontend && npx playwright install --with-deps
+        run: cd frontend && npm ci && npx playwright install --with-deps
 
       - name: run tests
         run: npx playwright test
