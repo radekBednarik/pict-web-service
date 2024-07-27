@@ -1,12 +1,9 @@
 import { test, expect, Download } from "@playwright/test";
 import MainPage from "../page-objects/mainPage";
 
-import { mkdirSync, readFileSync } from "fs";
+import { mkdirSync } from "fs";
 import path from "path";
 
-const pictInput = readFileSync("tests/test-data/model-input-01.txt", {
-  encoding: "utf-8",
-});
 const dirpath = "tests/test-data/temp/";
 
 test.describe("functional", () => {
@@ -20,8 +17,6 @@ test.describe("functional", () => {
     });
 
     test("output .json file is generated", async () => {
-      await mainPage.locTextArea.clear();
-      await mainPage.locTextArea.fill(pictInput);
       await mainPage.locOutSelect.selectOption("json");
 
       const downloadPromise = mainPage.page.waitForEvent("download");
@@ -36,9 +31,6 @@ test.describe("functional", () => {
     });
 
     test("output .txt file is generated", async () => {
-      await mainPage.locTextArea.clear();
-      await mainPage.locTextArea.fill(pictInput);
-
       const downloadPromise = mainPage.page.waitForEvent("download");
       await mainPage.locBttnSubmit.click();
       const download = await downloadPromise;
@@ -51,8 +43,6 @@ test.describe("functional", () => {
     });
 
     test("output .csv file is generated", async () => {
-      await mainPage.locTextArea.clear();
-      await mainPage.locTextArea.fill(pictInput);
       await mainPage.locOutSelect.selectOption("csv");
 
       const downloadPromise = mainPage.page.waitForEvent("download");
@@ -67,8 +57,6 @@ test.describe("functional", () => {
     });
 
     test("output .xlsx file is generated", async () => {
-      await mainPage.locTextArea.clear();
-      await mainPage.locTextArea.fill(pictInput);
       await mainPage.locOutSelect.selectOption("xlsx");
 
       const downloadPromise = mainPage.page.waitForEvent("download");
@@ -118,9 +106,6 @@ test.describe("functional", () => {
     });
 
     test("server returns after several seconds - spinner modal pops up", async () => {
-      await mainPage.locTextArea.clear();
-      await mainPage.locTextArea.fill(pictInput);
-
       // route POST endpoint to induce modal popup
       await mainPage.page.route("**/generate", async (route) => {
         await route.fetch();
@@ -136,9 +121,6 @@ test.describe("functional", () => {
     });
 
     test("server response fails with 500 - error div is displayed", async () => {
-      await mainPage.locTextArea.clear();
-      await mainPage.locTextArea.fill(pictInput);
-
       await mainPage.page.route("**/generate", async (route) => {
         await route.abort("timedout");
       });
