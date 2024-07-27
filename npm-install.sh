@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ./backend/ && npm i && cd ..
-cd ./frontend/ && npm i && cd ..
+cd ./backend/ && npm ci && cd ..
+cd ./frontend/ && npm ci && cd ..

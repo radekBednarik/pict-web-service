@@ -19,10 +19,11 @@ jobs:
           node-version: 20
 
       - name: install deps
-        run: npm ci
+        run: ./npm-install.sh
+        shell: bash
 
       - name: run tests
-        run: npx playwright test
+        run: cd frontend && npx playwright test
         env:
           HOME: /root
           PORT: 4000
