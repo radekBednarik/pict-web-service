@@ -1,0 +1,40 @@
+name: ci-cd
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: install deps
+        run: ./npm-install.sh
+        shell: bash
+
+      - name: start backend server
+        run: cd backend && npm run dev && cd ..
+
+      - name: start frontend app
+        run: cd frontend && npm run build && npm run preview
+
+      - name: install pw deps and browsers
+        run: npx playwright install --with-deps
+
+      - name: run tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: html-report/
+          retention-days: 7
