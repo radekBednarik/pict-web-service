@@ -23,7 +23,7 @@ jobs:
         shell: bash
 
       - name: install playwright
-        run: cd frontend && npx playwright install --with-deps
+        run: cd frontend && npx playwright install --with-deps && sudo chown -R 1001:127 "/root/.npm"
 
       - name: run tests
         run: npx playwright test
