@@ -18,9 +18,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Show repo dir tree
-        run: tree .
-
       - name: run tests
         run: npm ci && npx playwright --version && npx playwright test
         env:
