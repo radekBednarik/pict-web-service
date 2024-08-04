@@ -1,15 +1,14 @@
 import { defineConfig } from "vite";
 import { randomUUID } from "node:crypto";
-
-const nonce = randomUUID();
+import { setCSP } from "./utils/headers";
 
 export default defineConfig({
   html: {
-    cspNonce: nonce,
+    cspNonce: randomUUID(),
   },
   server: {
     headers: {
-      "content-security-policy": `default-src 'self' localhost:4000 pict-web-service-backend.onrender.com www.clarity.ms 'unsafe-inline'; img-src * data:;`,
+      "content-security-policy": setCSP(),
       "x-frame-options": "DENY",
       "strict-transport-security":
         "max-age=63072000; includeSubDomains; preload",
