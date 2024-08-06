@@ -10,7 +10,7 @@ ENV NODE_VERSION=20.16.0
 ENV NVM_DIR=/root/.nvm
 ENV NODE_ENV=production
 
-RUN apt-get update && apt-get install -y curl build-essential
+RUN apt-get update && apt-get install -y curl build-essential && apt-get clean
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 
