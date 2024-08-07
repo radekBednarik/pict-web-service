@@ -4,7 +4,7 @@ export function injectFooter(element: HTMLDivElement) {
   element.innerHTML = `
     <div class="bg-primary-subtle rounded d-flex justify-content-end align-items-center p-2">
       <p class="mt-3 pt-3 pb-3">
-        &copy 2024
+        &copy <span id="copy-date"></span>
         <a href="https://github.com/radekBednarik" target="_blank" referrerpolicy="no-referrer">
           Radek Bednarik
         </a>
@@ -90,4 +90,15 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error(err.message);
       });
   });
+
+  // add current year on load
+  injectCopyDate();
 });
+
+// injects current year for copy date
+function injectCopyDate() {
+  const el = document.querySelector<HTMLSpanElement>("#copy-date");
+  const year = new Date().getFullYear();
+
+  el!.innerText = String(year);
+}
