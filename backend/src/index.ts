@@ -11,6 +11,7 @@ import { saveTsvAsCsv, saveJsonAsXlsx } from "./utils/conversions.js";
 import { getOutType } from "./utils/utils.js";
 import type { Output } from "./utils/utils.js";
 import { setCSPValue } from "./utils/headers.js";
+import { deleteFiles } from "./utils/io.js";
 
 // logger
 const transports = pino.transport({
@@ -125,6 +126,8 @@ app.post("/generate", async (req, res) => {
     const msg = { error: { code: 500, message: "PICT generation of test cases failed." } };
     res.log.error({ ...msg, errorDetail: error });
     res.status(500).json(msg);
+
+    await deleteFiles(pLogger, modelPath, testsPath, seedPath);
     return;
   }
 
@@ -137,6 +140,8 @@ app.post("/generate", async (req, res) => {
       const msg = { error: { code: 500, message: "Failed to convert and save .tsv as .csv" } };
       res.log.error({ ...msg, errorDetail: error });
       res.status(500).json(msg);
+
+      await deleteFiles(pLogger, modelPath, testsPath, seedPath);
       return;
     }
   }
@@ -148,6 +153,8 @@ app.post("/generate", async (req, res) => {
       const msg = { error: { code: 500, message: "Failed to convert and save .json as .xlsx" } };
       res.log.error({ ...msg, errorDetail: error });
       res.status(500).json(msg);
+
+      await deleteFiles(pLogger, modelPath, testsPath, seedPath);
       return;
     }
   }
@@ -158,9 +165,13 @@ app.post("/generate", async (req, res) => {
       const msg = { error: { code: 500, message: "Downloading file failed." } };
       res.log.error({ ...msg, errorDetail: err });
       res.status(500).json(msg);
+
+      await deleteFiles(pLogger, modelPath, testsPath, seedPath);
       return;
     }
   });
+
+  await deleteFiles(pLogger, modelPath, testsPath, seedPath);
 });
 
 app.listen(port, () => {
