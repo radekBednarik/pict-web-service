@@ -165,13 +165,11 @@ app.post("/generate", async (req, res) => {
       const msg = { error: { code: 500, message: "Downloading file failed." } };
       res.log.error({ ...msg, errorDetail: err });
       res.status(500).json(msg);
-
-      await deleteFiles(pLogger, modelPath, testsPath, seedPath);
-      return;
     }
-  });
 
-  await deleteFiles(pLogger, modelPath, testsPath, seedPath);
+    await deleteFiles(pLogger, modelPath, testsPath, seedPath);
+    return;
+  });
 });
 
 app.listen(port, () => {
