@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { writeFile, mkdir } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import express from "express";
 import { rateLimit } from "express-rate-limit";
 import { v4 as u4 } from "uuid";
@@ -7,7 +7,7 @@ import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 import PictGenerator from "pwtg";
 
-import { saveTsvAsCsv, saveJsonAsXlsx } from "./utils/conversions.js";
+import { saveJsonAsXlsx, saveTsvAsCsv } from "./utils/conversions.js";
 import { getOutType } from "./utils/utils.js";
 import type { Output } from "./utils/utils.js";
 import { setCSPValue } from "./utils/headers.js";
@@ -18,7 +18,10 @@ const transports = pino.transport({
   targets: [
     {
       target: "pino/file",
-      options: { destination: process.env.LOG_FILE_PATH || "/var/log/pict-server/server.log" },
+      options: {
+        destination: process.env.LOG_FILE_PATH ||
+          "/var/log/pict-server/server.log",
+      },
       level: process.env.LOG_FILE_LEVEL || "warn",
     },
     {
@@ -27,7 +30,10 @@ const transports = pino.transport({
     },
   ],
 });
-const pLogger = pino({ enabled: Boolean(process.env.LOG_ENABLED) || true }, transports);
+const pLogger = pino(
+  { enabled: Boolean(process.env.LOG_ENABLED) || true },
+  transports,
+);
 const logger = pinoHttp({
   logger: pLogger,
   autoLogging: true,
@@ -48,21 +54,30 @@ app.use(
     limit: 100,
     standardHeaders: "draft-7",
     legacyHeaders: false,
-    message: { error: { code: 429, message: "Request rate limit reached. Try again later." } },
+    message: {
+      error: {
+        code: 429,
+        message: "Request rate limit reached. Try again later.",
+      },
+    },
   }),
 );
 
 app.post("/generate", async (req, res) => {
   // handle content type
   if (!req.accepts("application/x-www-form-urlencoded")) {
-    const msg = { error: { code: 412, message: "Wrong Content-Type header value." } };
+    const msg = {
+      error: { code: 412, message: "Wrong Content-Type header value." },
+    };
     res.log.error(msg);
     res.status(412).json(msg);
     return;
   }
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "data")) {
-    const msg = { error: { code: 400, message: "Data not provided in request body." } };
+    const msg = {
+      error: { code: 400, message: "Data not provided in request body." },
+    };
     res.log.error(msg);
     res.status(400).json(msg);
     return;
@@ -76,7 +91,9 @@ app.post("/generate", async (req, res) => {
   }
 
   if (!Object.prototype.hasOwnProperty.call(req.body, "output")) {
-    const msg = { error: { code: 400, message: "Output file type was not provided." } };
+    const msg = {
+      error: { code: 400, message: "Output file type was not provided." },
+    };
     res.log.error(msg);
     res.status(400).json(msg);
     return;
@@ -85,13 +102,28 @@ app.post("/generate", async (req, res) => {
   res.setHeader("Access-Control-Request-Method", "POST");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Security-Policy", setCSPValue());
-  res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  res.setHeader(
+    "Strict-Transport-Security",
+    "max-age=63072000; includeSubDomains; preload",
+  );
   res.setHeader("Cache-Control", "no-cache");
 
   const data = req.body["data"];
   const output = req.body["output"] as Output;
   const combOrder = Number(req.body["combOrder"]);
   const seedFile = req.body["seedFile"];
+
+  // check if outputs are valid
+  const allowedOutputs = ["json", "csv", "xlsx", "txt"];
+  if (!allowedOutputs.includes(output)) {
+    const msg = {
+      error: { code: 400, message: "Output file type is not supported." },
+    };
+    res.log.error(msg);
+    res.status(400).json(msg);
+    return;
+  }
+
   // must save data so PICT can load them - this is perf penalty, but
   // since PICT is CLI first tool, it cannot be avoided
   const dirModels = "/tmp/pict/models";
@@ -121,9 +153,17 @@ app.post("/generate", async (req, res) => {
   // handle errors
   try {
     const outType = getOutType(output);
-    await generator.generate(outType, true, testsPath, seedPath ? seedPath : undefined, combOrder);
+    await generator.generate(
+      outType,
+      true,
+      testsPath,
+      seedPath ? seedPath : undefined,
+      combOrder,
+    );
   } catch (error) {
-    const msg = { error: { code: 500, message: "PICT generation of test cases failed." } };
+    const msg = {
+      error: { code: 500, message: "PICT generation of test cases failed." },
+    };
     res.log.error({ ...msg, errorDetail: error });
     res.status(500).json(msg);
 
@@ -137,7 +177,12 @@ app.post("/generate", async (req, res) => {
     try {
       await saveTsvAsCsv(generator.generated!, testsPath, dirTests);
     } catch (error) {
-      const msg = { error: { code: 500, message: "Failed to convert and save .tsv as .csv" } };
+      const msg = {
+        error: {
+          code: 500,
+          message: "Failed to convert and save .tsv as .csv",
+        },
+      };
       res.log.error({ ...msg, errorDetail: error });
       res.status(500).json(msg);
 
@@ -150,7 +195,12 @@ app.post("/generate", async (req, res) => {
     try {
       saveJsonAsXlsx(generator.generated!, testsPath);
     } catch (error) {
-      const msg = { error: { code: 500, message: "Failed to convert and save .json as .xlsx" } };
+      const msg = {
+        error: {
+          code: 500,
+          message: "Failed to convert and save .json as .xlsx",
+        },
+      };
       res.log.error({ ...msg, errorDetail: error });
       res.status(500).json(msg);
 
