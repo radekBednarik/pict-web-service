@@ -10,13 +10,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@playwright/test": "^1.45.3",
+    "@playwright/test": "^1.57.0",
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^20.12.8",
     "rimraf": "^5.0.5",
     "sass": "^1.76.0",
     "typescript": "^5.2.2",
-    "vite": "^6.3.6"
+    "vite": "^6.4.1"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
