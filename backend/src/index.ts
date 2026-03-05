@@ -4,7 +4,7 @@ import express from "express";
 import { rateLimit } from "express-rate-limit";
 import { v4 as u4 } from "uuid";
 import { pinoHttp } from "pino-http";
-import { pino } from "pino";
+import { pino, transport } from "pino";
 import PictGenerator from "pwtg";
 
 import { saveJsonAsXlsx, saveTsvAsCsv } from "./utils/conversions.js";
@@ -14,13 +14,12 @@ import { setCSPValue } from "./utils/headers.js";
 import { deleteFiles } from "./utils/io.js";
 
 // logger
-const transports = pino.transport({
+const transports = transport({
   targets: [
     {
       target: "pino/file",
       options: {
-        destination: process.env.LOG_FILE_PATH ||
-          "/var/log/pict-server/server.log",
+        destination: process.env.LOG_FILE_PATH || "/var/log/pict-server/server.log",
       },
       level: process.env.LOG_FILE_LEVEL || "warn",
     },
@@ -30,11 +29,8 @@ const transports = pino.transport({
     },
   ],
 });
-const pLogger = pino(
-  { enabled: Boolean(process.env.LOG_ENABLED) || true },
-  transports,
-);
-const logger = pinoHttp({
+const pLogger = pino({ enabled: Boolean(process.env.LOG_ENABLED) || true }, transports);
+const httpLogger = pinoHttp({
   logger: pLogger,
   autoLogging: true,
   level: process.env.LOG_CONSOLE_LEVEL || "warn",
@@ -44,7 +40,7 @@ const port = process.env.PORT || 4000;
 const app = express();
 
 app.set("trust proxy", 1);
-app.use(logger);
+app.use(httpLogger);
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -102,10 +98,7 @@ app.post("/generate", async (req, res) => {
   res.setHeader("Access-Control-Request-Method", "POST");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Security-Policy", setCSPValue());
-  res.setHeader(
-    "Strict-Transport-Security",
-    "max-age=63072000; includeSubDomains; preload",
-  );
+  res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   res.setHeader("Cache-Control", "no-cache");
 
   const data = req.body["data"];
@@ -153,13 +146,7 @@ app.post("/generate", async (req, res) => {
   // handle errors
   try {
     const outType = getOutType(output);
-    await generator.generate(
-      outType,
-      true,
-      testsPath,
-      seedPath ? seedPath : undefined,
-      combOrder,
-    );
+    await generator.generate(outType, true, testsPath, seedPath ? seedPath : undefined, combOrder);
   } catch (error) {
     const msg = {
       error: { code: 500, message: "PICT generation of test cases failed." },

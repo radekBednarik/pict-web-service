@@ -28,7 +28,7 @@ export function saveJsonAsXlsx(inputData: string, outputPath: string): void {
 
     xlsx.writeFile(workbook, outputPath);
   } catch (err) {
-    throw new Error(`func jsonToXlsx failed: ${err}`);
+    throw new Error(`func jsonToXlsx failed `, { cause: err });
   }
 }
 
@@ -54,7 +54,7 @@ export async function saveTsvAsCsv(inputData: string, filepath: string, pathStar
     }
     await writeFile(resPath, data, { encoding: "utf-8" });
   } catch (error) {
-    throw new Error(`func tsvToCsv failed: ${error}`);
+    throw new Error(`func tsvToCsv failed`, { cause: error });
   }
 }
 
